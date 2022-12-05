@@ -12,7 +12,6 @@ from itertools import combinations
 from functools import wraps
 from time import time
 
-
 def timing(f):
     @wraps(f)
     def wrap(*args, **kw):
@@ -418,7 +417,7 @@ def Normalize(s_d, thetas, order):
     return sum
 
 
-def energy(thetas,ansatz, s_dict,G_K, order):
+def energy(thetas, s_dict,G_K, order):
   E = 0
   s_dict1 = s_dict
   for paulistring in G_K: #loop through terms in Hamiltonian
@@ -615,7 +614,6 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
         matrix_min = scipy.optimize.minimize(Energy_matrix, theta_init, jac = False, args = (N,H_m,ansatz_m, K))
     end = time()
     print(f"{'Time to find local minimum:':<25} {f'{end-start}'}\n")
-
     if log: print("LOG")
 
     for iter in range(N_K):
@@ -635,15 +633,10 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
         init_angles = global_to_local_angle(prev_angles_global, K)
 
         #calculate energy
-        if boundary == "hypercube": #boundary set to cube
-            result = scipy.optimize.minimize(energy, init_angles,jac = False, args = (ansatz,s,G_K,order),bounds=bounds)
-
-        elif boundary == "hypersphere": #boundary set to sphere
-            result = scipy.optimize.minimize(energy, init_angles,jac = False, args = (ansatz,s,G_K,order),constraints=con)
+        args = (s, G_K, order)
+        optimizer = E_optimizer(energy, theta_init, args = args)
+        result = optimizer.optim()
         
-        else:
-            raise ValueError("Invalid boundary condition was given. hypercube or hypersphere")
-
         #get indices of magic gates
         magic_indices = np.where(np.pi/8 -  np.abs(result.x)< epsilon)
 
@@ -723,9 +716,7 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
     
     return nfev_ratio, Overlap, E_a, E_t, E_a_t, matrix_min
 
-  
-
-class optimizer:
+class E_optimizer:
     def __init__(self, func, x0, args = (), boundary = "hypersphere", epsilon= 1e-3):
         self.func = func
         self.x0 = np.asarray(x0)
@@ -733,7 +724,7 @@ class optimizer:
         self.epsilon = epsilon
         self.args = args
 
-    def callback(self, x):
+    def callback(self, x, *args):
         if self.boundary == "hypersphere":
             corner = np.sqrt(len(x)*(np.pi/8)**2)
             norm = np.linalg.norm(x)
@@ -741,8 +732,7 @@ class optimizer:
                 #quit optimization
                 print("Optimization stopped because of boundary condition")
                 return True
-    def optimize(self):
-        opt = scipy.optimize.minimize(self.func, self.x0, jac = False, args = self.args)
+    def optim(self):
+        opt = scipy.optimize.minimize(self.func, self.x0, jac = False, args = self.args, callback = self.callback, method = "trust-constr")
         return opt
-
 

@@ -1,6 +1,6 @@
 from VQE_functions import *
 from tqdm import tqdm
-N = 4
+N = 6
 L = 2
 X_H = -10
 ansatz = QAOA(N, L)
@@ -12,7 +12,7 @@ filename = "VQE/results.csv"
 matrix_min = None
 input = [N, "QAOA", "TFIM", X_H, L, order, boundary, iterations]
 
-for _ in tqdm(range(2)):
+for _ in tqdm(range(5)):
 
     print(input)
     nfev_ratio, Overlap, E_a, E_t, E_a_t,_ = find_K(N, ansatz, H, iterations, order, log = False, matrix_min = matrix_min)
