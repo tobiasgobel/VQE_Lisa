@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/home/lcur0346/VQE/K_finding.py", line 6, in <module>
+    ansatz = QAOA(N, L)
+  File "/home/lcur0346/VQE/VQE_functions.py", line 438, in QAOA
+    XX_layer = [pauli(f"X{i}X{i+1}",N) for i in range(N-1)] # not yet flattened circuit
+  File "/home/lcur0346/VQE/VQE_functions.py", line 438, in <listcomp>
+    XX_layer = [pauli(f"X{i}X{i+1}",N) for i in range(N-1)] # not yet flattened circuit
+  File "/home/lcur0346/VQE/VQE_functions.py", line 123, in __init__
+    self.string = str_to_lst(N, string)
+NameError: name 'str_to_lst' is not defined
+srun: error: r32n6: task 0: Exited with exit code 1

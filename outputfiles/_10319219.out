@@ -1,0 +1,6 @@
+[6, 'QAOA', 'TFIM', -10, 4, 6, 'hypersphere', 10]
+Time to find global minimum: 104.16784286499023
+
+slurmstepd: error: *** JOB 10319219 ON r31n5 CANCELLED AT 2022-11-24T19:29:32 DUE TO TIME LIMIT ***
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+  0%|          | 0/2 [00:00<?, ?it/s]slurmstepd: error: *** STEP 10319219.0 ON r31n5 CANCELLED AT 2022-11-24T19:29:32 DUE TO TIME LIMIT ***

@@ -1,0 +1,6 @@
+/var/spool/slurm/slurmd/job10314668/slurm_script: line 17: cd: /home/lcur0346/...: No such file or directory
+Time to find global minimum: 123.09917902946472
+
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 10314668 ON r30n2 CANCELLED AT 2022-11-23T12:56:40 DUE TO TIME LIMIT ***
+  0%|          | 0/20 [00:00<?, ?it/s]slurmstepd: error: *** STEP 10314668.0 ON r30n2 CANCELLED AT 2022-11-23T12:56:40 DUE TO TIME LIMIT ***

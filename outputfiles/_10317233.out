@@ -1,0 +1,14 @@
+[7, 'QAOA', 'TFIM', -1, 2, 6, 'hypersphere', 10]
+Time to find global minimum: 28.906710386276245
+
+[7, 'QAOA', 'TFIM', -1, 2, 6, 'hypersphere', 10, 3.0, 0.9999999986080067, -6.116987780459183, -6.116987784461006, -6.1169877844628]
+[7, 'QAOA', 'TFIM', -1, 2, 6, 'hypersphere', 10]
+Time to find global minimum: 27.781065702438354
+
+[7, 'QAOA', 'TFIM', -1, 2, 6, 'hypersphere', 10, 1.7272727272727273, 0.8059827299535162, -6.021581018476601, -5.895016194804447, -6.042082623080116]
+[7, 'QAOA', 'TFIM', -1, 2, 6, 'hypersphere', 10]
+Time to find global minimum: 23.93429732322693
+
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 10317233 ON r31n5 CANCELLED AT 2022-11-23T21:06:22 ***
+  0%|          | 0/20 [00:00<?, ?it/s]  5%|▌         | 1/20 [06:36<2:05:42, 396.99s/it] 10%|█         | 2/20 [14:03<2:07:46, 425.94s/it]slurmstepd: error: *** STEP 10317233.0 ON r31n5 CANCELLED AT 2022-11-23T21:06:22 ***
