@@ -309,7 +309,7 @@ def place_ones(size, order):
                 p[i] = 1
             yield p
 
-
+#old slow version
 @timing
 def s_dict(N, ansatz, K, order):
   start = time()
@@ -417,9 +417,13 @@ def Normalize(s_d, thetas, order):
     return sum
 
 
-def energy(thetas, s_dict,G_K, order):
+def energy(thetas, s_dict,G_K, order, HVA=False):
   E = 0
   s_dict1 = s_dict
+  if HVA:
+    thetas = [[thetas[i]]*HVA for i in range(len(thetas))]
+    thetas = np.array(thetas).flatten()
+    print(thetas)
   for paulistring in G_K: #loop through terms in Hamiltonian
     E_a = 0
     #loop over basis states
@@ -453,9 +457,7 @@ def angle_compare(theta_opt, theta_appr, K):
   theta_appr = theta_appr + np.array(K)*np.pi/4
   theta_appr = theta_appr % (2*np.pi)
   theta_opt = theta_opt % (2*np.pi)
-
   distance = np.linalg.norm(theta_opt-theta_appr)
-
   return distance
 
 def wavefunction_compare(theta_opt, theta_appr, K, ansatz):
@@ -506,6 +508,7 @@ def TUCC(N:int, Layers:int,array_method=False):
     if array_method:
         ansatz = [a.to_parray() for a in ansatz]
     return ansatz
+
 
 
 
@@ -573,7 +576,7 @@ def output(K_tree, optim_node, termination, matrix_min, ansatz, N, H, log = True
     return K_best, E_a
     
 
-
+@timing
 def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, matrix_min = None):
 
     H_m = sum([h.matrix_repr() for h in H])
@@ -636,7 +639,7 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
         args = (s, G_K, order)
         optimizer = E_optimizer(energy, theta_init, args = args)
         result = optimizer.optim()
-        
+
         #get indices of magic gates
         magic_indices = np.where(np.pi/8 -  np.abs(result.x)< epsilon)
 

@@ -1,18 +1,18 @@
 from VQE_functions import *
 from tqdm import tqdm
-N = 6
+N = 7
 L = 2
-X_H = -10
+X_H = -1
 ansatz = QAOA(N, L)
 H = TFIM(N, X_H)
 iterations = 10
 order = 6
 boundary = "hypersphere"
-filename = "VQE/results.csv"
+filename = "result_optim.csv"
 matrix_min = None
 input = [N, "QAOA", "TFIM", X_H, L, order, boundary, iterations]
 
-for _ in tqdm(range(5)):
+for _ in tqdm(range(20)):
 
     print(input)
     nfev_ratio, Overlap, E_a, E_t, E_a_t,_ = find_K(N, ansatz, H, iterations, order, log = False, matrix_min = matrix_min)

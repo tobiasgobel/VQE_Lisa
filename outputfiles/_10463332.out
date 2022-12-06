@@ -1,0 +1,28 @@
+[8, 'QAOA', 'TFIM', -10, 2, 6, 'hypersphere', 10]
+Time to find local minimum: 257.9321320056915
+
+func:'s_dict2'  took: 2.0524 sec
+Optimization stopped because of boundary condition
+func:'s_dict2'  took: 0.2692 sec
+Optimization stopped because of boundary condition
+func:'s_dict2'  took: 0.3300 sec
+Optimization stopped because of boundary condition
+func:'s_dict2'  took: 0.3905 sec
+Optimization stopped because of boundary condition
+func:'s_dict2'  took: 0.2838 sec
+Optimization stopped because of boundary condition
+func:'s_dict2'  took: 0.3029 sec
+Optimization stopped because of boundary condition
+func:'s_dict2'  took: 0.2615 sec
+Optimization stopped because of boundary condition
+func:'s_dict2'  took: 0.3304 sec
+func:'s_dict2'  took: 0.3202 sec
+func:'s_dict2'  took: 0.3111 sec
+nfev_t/nfev_a: 816/144 = 5.666666666666667
+[8, 'QAOA', 'TFIM', -10, 2, 6, 'hypersphere', 10, 5.666666666666667, 0.9999999889342349, -50.7593407109063, -50.75934116789849, -50.75934116789896]
+  0%|          | 0/1 [00:00<?, ?it/s]  0%|          | 0/1 [35:31<?, ?it/s]
+Traceback (most recent call last):
+  File "/home/lcur0346/VQE/K_finding.py", line 25, in <module>
+    with open(filename, 'a') as f_object:
+FileNotFoundError: [Errno 2] No such file or directory: 'VQE/results.csv'
+srun: error: r31n5: task 0: Exited with exit code 1
