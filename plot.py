@@ -1,4 +1,4 @@
-from VQE_functions import *
+from K_cell_searching import *
 import pandas as pd
 #plot histogram of nfev_ratio
 filename = "VQE/results.csv"

@@ -1,0 +1,25 @@
+[6, 'QAOA', 'TFIM', -1, 4, 6, 'hypersphere', 10]
+Time to find local minimum: 137.38810276985168
+
+func:'s_dict2'  took: 4.9453 sec
+Optimization stopped because of boundary condition
+func:'s_dict2'  took: 3.3541 sec
+Optimization stopped because of boundary condition
+func:'s_dict2'  took: 3.0721 sec
+Optimization stopped because of boundary condition
+func:'s_dict2'  took: 3.0761 sec
+Optimization stopped because of boundary condition
+func:'s_dict2'  took: 3.2023 sec
+Optimization stopped because of boundary condition
+func:'s_dict2'  took: 2.9213 sec
+Optimization stopped because of boundary condition
+func:'s_dict2'  took: 3.3526 sec
+Optimization stopped because of boundary condition
+func:'s_dict2'  took: 3.1680 sec
+Optimization stopped because of boundary condition
+func:'s_dict2'  took: 3.1298 sec
+Optimization stopped because of boundary condition
+func:'s_dict2'  took: 3.1213 sec
+  0%|          | 0/20 [00:00<?, ?it/s]slurmstepd: error: *** STEP 10474542.0 ON r31n5 CANCELLED AT 2022-12-07T07:16:46 DUE TO TIME LIMIT ***
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 10474542 ON r31n5 CANCELLED AT 2022-12-07T07:16:46 DUE TO TIME LIMIT ***

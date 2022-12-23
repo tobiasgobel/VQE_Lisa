@@ -1,0 +1,163 @@
+[6, 'QAOA', 'TFIM', -10, 2, 6, 'hypersphere', 10]
+Time to find local minimum: 3.331251621246338
+
+func:'s_dict'  took: 1.1667 sec
+[1, 3, 0, 0, 2, 3, 0, 2, 1, 1, 3]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0235 sec
+[0, 3, 0, 0, 2, 3, 0, 2, 1, 1, 3]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0248 sec
+[0, 3, 1, 0, 2, 3, 0, 2, 1, 1, 3]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0259 sec
+[0, 3, 0, 1, 2, 3, 0, 2, 1, 1, 3]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0266 sec
+[0, 3, 0, 0, 3, 3, 0, 2, 1, 1, 3]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0279 sec
+[1, 3, 0, 0, 3, 3, 0, 2, 1, 1, 3]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0291 sec
+[0, 3, 1, 0, 3, 3, 0, 2, 1, 1, 3]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0293 sec
+[0, 3, 0, 1, 3, 3, 0, 2, 1, 1, 3]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0242 sec
+[0, 3, 0, 0, 4, 3, 0, 2, 1, 1, 3]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0254 sec
+[1, 3, 0, 0, 4, 3, 0, 2, 1, 1, 3]
+Optimization stopped because of boundary condition
+nfev_t/nfev_a: 540/372 = 1.4516129032258065
+func:'find_K'  took: 11.3826 sec
+[6, 'QAOA', 'TFIM', -10, 2, 6, 'hypersphere', 10, 1.4516129032258065, 0.4502846075966585, -15.720571972782714, -40.22146583569984, -40.221465835701984]
+[6, 'QAOA', 'TFIM', -10, 2, 6, 'hypersphere', 10]
+Time to find local minimum: 6.809681415557861
+
+func:'s_dict'  took: 0.0250 sec
+[3, 2, 1, 0, 0, 0, 2, 2, 2, 0, 2]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0274 sec
+[3, 2, 1, -1, 0, 0, 2, 2, 2, 0, 2]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0285 sec
+[4, 2, 1, -1, 0, 0, 2, 2, 2, 0, 2]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0270 sec
+[3, 2, 2, -1, 0, 0, 2, 2, 2, 0, 2]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0313 sec
+[3, 2, 1, -1, 1, 0, 2, 2, 2, 0, 2]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0282 sec
+[3, 2, 1, -1, 0, 1, 2, 2, 2, 0, 2]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0285 sec
+[4, 2, 1, -1, 0, 1, 2, 2, 2, 0, 2]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0296 sec
+[5, 2, 1, -1, 0, 1, 2, 2, 2, 0, 2]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0310 sec
+[6, 2, 1, -1, 0, 1, 2, 2, 2, 0, 2]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0293 sec
+[5, 2, 2, -1, 0, 1, 2, 2, 2, 0, 2]
+Optimization stopped because of boundary condition
+nfev_t/nfev_a: 1188/516 = 2.302325581395349
+func:'find_K'  took: 17.0211 sec
+[6, 'QAOA', 'TFIM', -10, 2, 6, 'hypersphere', 10, 2.302325581395349, 0.2671984586744509, -30.597765858518144, -40.181477825313145, -40.18147782531466]
+[6, 'QAOA', 'TFIM', -10, 2, 6, 'hypersphere', 10]
+Time to find local minimum: 3.9916763305664062
+
+func:'s_dict'  took: 0.0357 sec
+[2, 2, 3, 0, 3, 3, 1, 1, 2, 1, 1]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0324 sec
+[2, 3, 3, 0, 3, 3, 1, 1, 2, 1, 1]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0324 sec
+[2, 4, 3, 0, 3, 3, 1, 1, 2, 1, 1]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0345 sec
+[2, 5, 3, 0, 3, 3, 1, 1, 2, 1, 1]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.1185 sec
+[2, 6, 3, 0, 3, 3, 1, 1, 2, 1, 1]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0363 sec
+[2, 5, 3, 1, 3, 3, 1, 1, 2, 1, 1]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0342 sec
+[2, 5, 3, 0, 3, 3, 2, 1, 2, 1, 1]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0344 sec
+[2, 6, 3, 0, 3, 3, 2, 1, 2, 1, 1]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0365 sec
+[2, 5, 3, 1, 3, 3, 2, 1, 2, 1, 1]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0344 sec
+[2, 5, 3, 0, 3, 3, 3, 1, 2, 1, 1]
+Optimization stopped because of boundary condition
+nfev_t/nfev_a: 588/744 = 0.7903225806451613
+func:'find_K'  took: 13.6741 sec
+[6, 'QAOA', 'TFIM', -10, 2, 6, 'hypersphere', 10, 0.7903225806451613, 0.4032348524275353, -28.960554079863538, -40.221465835701196, -40.18147782531288]
+[6, 'QAOA', 'TFIM', -10, 2, 6, 'hypersphere', 10]
+Time to find local minimum: 2.933044195175171
+
+func:'s_dict'  took: 0.0311 sec
+[0, 3, 3, 0, 2, 1, 2, 2, 2, 3, 3]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0273 sec
+[-1, 3, 3, 0, 2, 1, 2, 2, 2, 3, 3]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0276 sec
+[-1, 4, 3, 0, 2, 1, 2, 2, 2, 3, 3]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0304 sec
+[-1, 3, 3, 1, 2, 1, 2, 2, 2, 3, 3]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0303 sec
+[-1, 4, 3, 1, 2, 1, 2, 2, 2, 3, 3]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0290 sec
+[-1, 3, 3, 2, 2, 1, 2, 2, 2, 3, 3]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0343 sec
+[-1, 3, 3, 1, 3, 1, 2, 2, 2, 3, 3]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0304 sec
+[-1, 3, 3, 1, 2, 2, 2, 2, 2, 3, 3]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0329 sec
+[-1, 3, 3, 1, 2, 1, 3, 2, 2, 3, 3]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0313 sec
+[-1, 4, 3, 1, 2, 1, 3, 2, 2, 3, 3]
+Optimization stopped because of boundary condition
+nfev_t/nfev_a: 480/408 = 1.1764705882352942
+func:'find_K'  took: 10.6049 sec
+[6, 'QAOA', 'TFIM', -10, 2, 6, 'hypersphere', 10, 1.1764705882352942, 0.24980776400248125, -27.282953444225797, -40.18147782531371, -40.22146583570166]
+[6, 'QAOA', 'TFIM', -10, 2, 6, 'hypersphere', 10]
+Time to find local minimum: 2.7036402225494385
+
+func:'s_dict'  took: 0.0259 sec
+[0, 0, 1, 0, 3, 3, 3, 0, 3, 2, 3]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0277 sec
+[0, -1, 1, 0, 3, 3, 3, 0, 3, 2, 3]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0247 sec
+[0, 0, 0, 0, 3, 3, 3, 0, 3, 2, 3]
+Optimization stopped because of boundary condition
+func:'s_dict'  took: 0.0235 sec
+[0, 0, 1, 0, 4, 3, 3, 0, 3, 2, 3]
+Optimization stopped because of boundary condition
+nfev_t/nfev_a: 456/468 = 0.9743589743589743
+func:'find_K'  took: 6.8605 sec
+[6, 'QAOA', 'TFIM', -10, 2, 6, 'hypersphere', 10, 0.9743589743589743, 0.0986067005335642, -4.119074871599107, -40.18147782531346, -40.221465835702176]
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:11<00:45, 11.38s/it] 40%|████      | 2/5 [00:28<00:44, 14.70s/it] 60%|██████    | 3/5 [00:42<00:28, 14.23s/it] 80%|████████  | 4/5 [00:52<00:12, 12.80s/it]100%|██████████| 5/5 [00:59<00:00, 10.66s/it]100%|██████████| 5/5 [00:59<00:00, 11.91s/it]

@@ -1,15 +1,13 @@
-from VQE_functions import *
+from Func import *
 @timing
-def s_dict2(N, ansatz, K, order):
+def s_dict(N, ansatz, K, order):
     T_K = pull_cliffords_through(ansatz, K, N)
     
-
     firstorder = [0]*len(ansatz)
     s_dict = {tuple([0]*N) : ([firstorder], [1])}
     #index of last nonzeror element in firstorder
     def next_order(list, last_nonzero,add_order, calc = True, factor = 1, state = [0]*N):
         if calc:
-            
             pauli_operator = T_K[last_nonzero]
             f, state = pauli_operator.state(np.array(state))
             factor = 1j*factor*f
@@ -36,17 +34,3 @@ def s_dict2(N, ansatz, K, order):
         lst = s_dict[st]
         s_dict[st] = (np.array(lst[0]),np.array(lst[1]))
     return s_dict
-
-
-
-
-N  = 8
-ansatz = QAOA(N,6)
-K = [0]*len(ansatz)
-order = 4
-print("len(ansatz) = ", len(ansatz))
-
-a = s_dict2(N, ansatz, K, order)
-print(len(s_dict(N, ansatz, K, order)))
-
-# print(s_dict2(N,ansatz, K, order))
