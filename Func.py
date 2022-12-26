@@ -94,7 +94,6 @@ def Energy_matrix(thetas,N,H,ansatz, K, HVA = False):
         exp = expm(1j*(np.pi/4*K[i]+thetas[i])*T)
         a = a @ exp
     psi = a @ zero_state
-
     #build Hamiltonian
     Energy = (np.transpose((np.conj(psi)) @ (H @ (psi))))
 

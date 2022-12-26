@@ -2,7 +2,7 @@ from K_cell_searching import *
 from tqdm import tqdm
 N = 6
 L = 2
-X_H = -10
+X_H = -1
 ansatz = QAOA(N, L)
 H = TFIM(N, X_H)
 iterations = 10

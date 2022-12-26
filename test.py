@@ -1,10 +1,11 @@
 
 from K_cell_searching import *
-
-N = 8
-H = TFIM(N,-1)
-HVA = 2
-ansatz = QAOA(N, HVA)
+from cirq_energy import *
+from time import time
+N = 10
+H = TFIM(N,1)
+HVA = None
+ansatz = QAOA(N, 2)
 
 print(f"length of ansatz: {len(ansatz)}")
 matrix_ansatz = [t.matrix_repr() for t in ansatz]
@@ -20,28 +21,54 @@ else:
     thetas = (np.random.rand(len(ansatz))-.5)*np.pi/4
     K = np.random.randint(0,3,len(ansatz))-1
 
-order = 6#len(ansatz)*2
+
+order = 6
 
 
+time_matrix  = time()
 #Energy with matrix calculation
-E1 = 0#Energy_matrix(thetas, N, matrix_H, matrix_ansatz, K)
+E_matrix = Energy_matrix(thetas, N, matrix_H, matrix_ansatz, K)
+time_matrix = time() - time_matrix
 
 #Energy with approximation method
+time_expansion = time()
 s = s_dict(N, ansatz, K, order)
 #s = s_dict(N, ansatz, K, order)
 G_K = G_k(N, H, ansatz,K)
-E2 = energy(thetas, s, G_K, order, HVA = HVA)
-# print(E1, E2)
+E_expansion = energy(thetas, s, G_K, order, HVA = HVA)
+time_expansion = time() - time_expansion
 
-args = (s, G_K, order, HVA)
-opt = E_optimizer(energy, thetas, args = args, boundary = "hypersphere", epsilon= 1e-3)
-E = opt.optim()
-print(E)
-res = find_K(N, ansatz, H, 10, order, log = False, matrix_min = None, boundary = "hypersphere", HVA = HVA)
-print(res)
-if np.abs(E1 - E2)< 1e-3 and order == 2*len(ansatz):
+
+#Energy with cirq
+time_cirq = time()
+H_cirq = sum([h.cirq_repr() for h in H])
+ansatz_cirq = [a.cirq_repr() for a in ansatz]
+E_cirq = cirq_Energy(thetas, ansatz_cirq, H_cirq, K)
+time_cirq = time() - time_cirq
+
+
+print(f"{'E_matrix:':<25} {f'{E_matrix}'}\n", f"{'time:':<25} {f'{time_matrix}'}\n")
+print(f"{'E_expansion:':<25} {f'{E_expansion}'}\n", f"{'time:':<25} {f'{time_expansion}'}\n")
+print(f"{'E_cirq:':<25} {f'{E_cirq}'}\n", f"{'time:':<25} {f'{time_cirq}'}\n")
+
+#check if energies match
+if np.abs(E_matrix - E_expansion)< 1e-3 and order == 2*len(ansatz):
     print("Energies match!")
 elif order != 2*len(ansatz):
     print("Not the full order is used for the approximation")
 else:
     print("Energies dont match")
+
+
+# args = (s, G_K, order, HVA)
+# opt = E_optimizer(energy, thetas, args = args, boundary = "hypersphere", epsilon= 1e-3)
+# E = opt.optim()
+# print(E)
+# res = find_K(N, ansatz, H, 10, order, log = False, matrix_min = None, boundary = "hypersphere", HVA = HVA)
+# print(res)
+# if np.abs(E1 - E2)< 1e-3 and order == 2*len(ansatz):
+#     print("Energies match!")
+# elif order != 2*len(ansatz):
+#     print("Not the full order is used for the approximation")
+# else:
+#     print("Energies dont match")

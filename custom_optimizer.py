@@ -19,5 +19,5 @@ class E_optimizer:
                 return True
     
     def optim(self):
-        opt = scipy.optimize.minimize(self.func, self.x0, jac = False, args = self.args, callback = self.callback, method = "trust-constr")
+        opt = scipy.optimize.minimize(self.func, self.x0, jac = False, args = self.args, method = "trust-constr")
         return opt
