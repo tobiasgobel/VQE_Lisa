@@ -2,9 +2,9 @@
 from K_cell_searching import *
 from cirq_energy import *
 from time import time
-N = 10
+N = 6
 H = TFIM(N,1)
-HVA = None
+HVA = False
 ansatz = QAOA(N, 2)
 
 print(f"length of ansatz: {len(ansatz)}")
@@ -22,7 +22,7 @@ else:
     K = np.random.randint(0,3,len(ansatz))-1
 
 
-order = 6
+order = 2*len(ansatz)
 
 
 time_matrix  = time()
@@ -43,7 +43,7 @@ time_expansion = time() - time_expansion
 time_cirq = time()
 H_cirq = sum([h.cirq_repr() for h in H])
 ansatz_cirq = [a.cirq_repr() for a in ansatz]
-E_cirq = cirq_Energy(thetas, ansatz_cirq, H_cirq, K)
+E_cirq = cirq_Energy(thetas, N, ansatz_cirq, H_cirq, K)
 time_cirq = time() - time_cirq
 
 
@@ -60,10 +60,20 @@ else:
     print("Energies dont match")
 
 
+
 # args = (s, G_K, order, HVA)
 # opt = E_optimizer(energy, thetas, args = args, boundary = "hypersphere", epsilon= 1e-3)
 # E = opt.optim()
-# print(E)
+
+# angles = E.x
+# print("After optimization:", end = "\n\n")
+# print("E_approximated:", E.fun)
+# print("E_cirq:", cirq_Energy(angles, N, ansatz_cirq, H_cirq, K))
+# minimized_cirq = scipy.optimize.minimize(cirq_Energy, thetas, args = (N, ansatz_cirq, H_cirq, K), method = "L-BFGS-B")
+# print("E_cirq minimized:", minimized_cirq.fun)
+# print("angles cirq minimized:", minimized_cirq.x)
+# print("K:", K)
+
 # res = find_K(N, ansatz, H, 10, order, log = False, matrix_min = None, boundary = "hypersphere", HVA = HVA)
 # print(res)
 # if np.abs(E1 - E2)< 1e-3 and order == 2*len(ansatz):

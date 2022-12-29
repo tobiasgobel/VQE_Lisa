@@ -1,0 +1,23 @@
+[6, 'QAOA', 'TFIM', -1, 2, 4, 'hypersphere', 10]
+Time to find local minimum: 16.33465075492859
+
+func:'s_dict'  took: 1.1341 sec
+func:'s_dict'  took: 0.0137 sec
+func:'s_dict'  took: 0.0145 sec
+func:'s_dict'  took: 0.0151 sec
+func:'s_dict'  took: 0.0149 sec
+func:'s_dict'  took: 0.0154 sec
+func:'s_dict'  took: 0.0159 sec
+func:'s_dict'  took: 0.0140 sec
+func:'s_dict'  took: 0.0148 sec
+func:'s_dict'  took: 0.0148 sec
+  0%|          | 0/5 [00:00<?, ?it/s]  0%|          | 0/5 [03:00<?, ?it/s]
+Traceback (most recent call last):
+  File "/home/lcur0346/VQE/K_finding.py", line 19, in <module>
+    nfev_ratio, Overlap, E_a, E_t, E_a_t,_ = find_K(N, ansatz, H, iterations, order, log = False, matrix_min = matrix_min, HVA =HVA)
+  File "/home/lcur0346/VQE/Func.py", line 19, in wrap
+    result = f(*args, **kw)
+  File "/home/lcur0346/VQE/K_cell_searching.py", line 208, in find_K
+    print("Energy of approx ", out["Energy"])
+KeyError: 'Energy'
+srun: error: r28n1: task 0: Exited with exit code 1

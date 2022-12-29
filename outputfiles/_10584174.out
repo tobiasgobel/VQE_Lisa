@@ -1,0 +1,21 @@
+[4, 'QAOA', 'TFIM', -1, 4, 4, 'hypersphere', 10]
+Time to find local minimum: 8.44378924369812
+
+func:'s_dict'  took: 1.1341 sec
+[0 0 0 1 1 1 1 1 1 1 3 3 3 3]
+K_i: 
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1]
+reduced K_i: 
+[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1]
+  0%|          | 0/5 [00:00<?, ?it/s]  0%|          | 0/5 [00:10<?, ?it/s]
+Traceback (most recent call last):
+  File "/home/lcur0346/VQE/K_finding.py", line 19, in <module>
+    nfev_ratio, Overlap, E_a, E_t, E_a_t,_ = find_K(N, ansatz, H, iterations, order, log = False, matrix_min = matrix_min, HVA =HVA)
+  File "/home/lcur0346/VQE/Func.py", line 19, in wrap
+    result = f(*args, **kw)
+  File "/home/lcur0346/VQE/K_cell_searching.py", line 186, in find_K
+    new_node = find_new_branch(K_tree, curr_node, K_path)
+  File "/home/lcur0346/VQE/K_cell_searching.py", line 34, in find_new_branch
+    if not K_tree[tree_i]['seen'] and list(reduced_K_i) not in K_path:
+ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
+srun: error: r28n1: task 0: Exited with exit code 1

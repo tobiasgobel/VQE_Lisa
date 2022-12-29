@@ -2,20 +2,21 @@ from K_cell_searching import *
 from tqdm import tqdm
 N = 6
 L = 2
+HVA = False
 X_H = -1
 ansatz = QAOA(N, L)
 H = TFIM(N, X_H)
 iterations = 10
-order = 6
+order = 4
 boundary = "hypersphere"
-filename = "result_optim_2.csv"
+filename = "result_optim_3.csv"
 matrix_min = None
 input = [N, "QAOA", "TFIM", X_H, L, order, boundary, iterations]
 
 for _ in tqdm(range(5)):
 
     print(input)
-    nfev_ratio, Overlap, E_a, E_t, E_a_t,_ = find_K(N, ansatz, H, iterations, order, log = False, matrix_min = matrix_min)
+    nfev_ratio, Overlap, E_a, E_t, E_a_t,_ = find_K(N, ansatz, H, iterations, order, log = False, matrix_min = matrix_min, HVA =HVA)
     output = [nfev_ratio, Overlap, E_a, E_t, E_a_t]
 
     line = input + output 

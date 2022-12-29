@@ -1,0 +1,75 @@
+[6, 'QAOA', 'TFIM', -1, 2, 4, 'hypersphere', 10]
+Time to find local minimum: 10.920929193496704
+
+func:'s_dict'  took: 1.1244 sec
+func:'s_dict'  took: 0.0142 sec
+func:'s_dict'  took: 0.0136 sec
+func:'s_dict'  took: 0.0133 sec
+func:'s_dict'  took: 0.0143 sec
+func:'s_dict'  took: 0.0140 sec
+func:'s_dict'  took: 0.0144 sec
+func:'s_dict'  took: 0.0140 sec
+func:'s_dict'  took: 0.0136 sec
+func:'s_dict'  took: 0.0143 sec
+Energy of approx  -7.0243099825691315
+nfev_t/nfev_a: 419/432 = 0.9699074074074074
+func:'find_K'  took: 49.1708 sec
+[6, 'QAOA', 'TFIM', -1, 2, 4, 'hypersphere', 10, 0.9699074074074074, 0.13634217168651844, -7.044392794370651, -0.8261987660080194, -7.044396311044693]
+[6, 'QAOA', 'TFIM', -1, 2, 4, 'hypersphere', 10]
+Time to find local minimum: 26.730649948120117
+
+func:'s_dict'  took: 0.0131 sec
+func:'s_dict'  took: 0.0136 sec
+func:'s_dict'  took: 0.0139 sec
+func:'s_dict'  took: 0.0146 sec
+func:'s_dict'  took: 0.0144 sec
+func:'s_dict'  took: 0.0137 sec
+func:'s_dict'  took: 0.0135 sec
+func:'s_dict'  took: 0.0149 sec
+func:'s_dict'  took: 0.0158 sec
+func:'s_dict'  took: 0.0155 sec
+Energy of approx  -7.0248062376868345
+nfev_t/nfev_a: 1016/492 = 2.065040650406504
+func:'find_K'  took: 83.2323 sec
+[6, 'QAOA', 'TFIM', -1, 2, 4, 'hypersphere', 10, 2.065040650406504, 0.042133799632457454, -7.052303642034531, -3.0364608857780695, -7.053000628948212]
+[6, 'QAOA', 'TFIM', -1, 2, 4, 'hypersphere', 10]
+Time to find local minimum: 12.953014373779297
+
+func:'s_dict'  took: 0.0102 sec
+func:'s_dict'  took: 0.0108 sec
+func:'s_dict'  took: 0.0119 sec
+func:'s_dict'  took: 0.0107 sec
+func:'s_dict'  took: 0.0130 sec
+func:'s_dict'  took: 0.0129 sec
+func:'s_dict'  took: 0.0104 sec
+func:'s_dict'  took: 0.0109 sec
+func:'s_dict'  took: 0.0116 sec
+func:'s_dict'  took: 0.0106 sec
+Energy of approx  -7.0054830784731665
+nfev_t/nfev_a: 492/456 = 1.0789473684210527
+func:'find_K'  took: 78.4332 sec
+[6, 'QAOA', 'TFIM', -1, 2, 4, 'hypersphere', 10, 1.0789473684210527, 0.10407155398981946, -6.967493146657944, -3.034118384006433, -6.9675818383693695]
+[6, 'QAOA', 'TFIM', -1, 2, 4, 'hypersphere', 10]
+Time to find local minimum: 15.257166862487793
+
+func:'s_dict'  took: 0.0141 sec
+func:'s_dict'  took: 0.0134 sec
+func:'s_dict'  took: 0.0135 sec
+func:'s_dict'  took: 0.0134 sec
+Energy of approx  -4.974910556469136
+nfev_t/nfev_a: 588/540 = 1.0888888888888888
+func:'find_K'  took: 37.1913 sec
+[6, 'QAOA', 'TFIM', -1, 2, 4, 'hypersphere', 10, 1.0888888888888888, 0.4526239639337809, -4.96700478051207, -1.3226420227438211, -4.9670048259577015]
+[6, 'QAOA', 'TFIM', -1, 2, 4, 'hypersphere', 10]
+Time to find local minimum: 12.832374095916748
+
+func:'s_dict'  took: 0.0084 sec
+func:'s_dict'  took: 0.0078 sec
+func:'s_dict'  took: 0.0085 sec
+func:'s_dict'  took: 0.0082 sec
+func:'s_dict'  took: 0.0081 sec
+Energy of approx  -6.473652113429067
+nfev_t/nfev_a: 502/816 = 0.6151960784313726
+func:'find_K'  took: 46.4554 sec
+[6, 'QAOA', 'TFIM', -1, 2, 4, 'hypersphere', 10, 0.6151960784313726, 0.9301357279367809, -6.9563053995370865, -5.9937426606193185, -6.994451478123665]
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:49<03:16, 49.17s/it] 40%|████      | 2/5 [02:12<03:27, 69.21s/it] 60%|██████    | 3/5 [03:30<02:26, 73.42s/it] 80%|████████  | 4/5 [04:08<00:59, 59.12s/it]100%|██████████| 5/5 [04:54<00:00, 54.55s/it]100%|██████████| 5/5 [04:54<00:00, 58.90s/it]

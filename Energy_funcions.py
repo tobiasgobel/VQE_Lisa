@@ -48,10 +48,12 @@ def Normalize(s_d, thetas, order):
 
     return sum
 
+
 def energy(thetas, s_dict,G_K, order, HVA=False):
   N = len(list(s_dict.keys())[0])
   E = 0
   s_dict1 = s_dict
+  terms = {}
 
   if HVA:
     thetas = distribute_over_gates(HVA, N, thetas)
@@ -73,8 +75,18 @@ def energy(thetas, s_dict,G_K, order, HVA=False):
       except:
         break
 
-      A = dict_multiplication(psi_s1[0],psi_s1[1],thetas)
-      B = dict_multiplication(psi_s2[0],psi_s2[1],thetas)
+      if s not in terms:
+        A = dict_multiplication(psi_s1[0],psi_s1[1],thetas)
+        terms[s] = A
+      else:
+        A = terms[s]
+
+      if state not in terms:
+        B = dict_multiplication(psi_s2[0],psi_s2[1],thetas)
+        terms[state] = B
+      else:
+        B = terms[state]
+
       E_a_s = A*np.conj(B)
 
       E_a_s *= a
@@ -82,5 +94,4 @@ def energy(thetas, s_dict,G_K, order, HVA=False):
     E += E_a
   
   norm = Normalize(s_dict1, thetas, order)
-#   print(f"E:{E}, Norm{norm}, E_final:{E/norm}")
   return np.real(E/norm)

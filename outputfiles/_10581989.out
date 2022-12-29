@@ -1,0 +1,9 @@
+[8, 'QAOA', 'TFIM', -1, 8, 4, 'hypersphere', 10]
+Time to find local minimum: 87.8247857093811
+
+func:'s_dict'  took: 15.5145 sec
+[3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2]
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 10581989 ON r28n1 CANCELLED AT 2022-12-27T12:27:21 DUE TO TIME LIMIT ***
+  0%|          | 0/5 [00:00<?, ?it/s]slurmstepd: error: *** STEP 10581989.0 ON r28n1 CANCELLED AT 2022-12-27T12:27:21 DUE TO TIME LIMIT ***

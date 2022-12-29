@@ -5,6 +5,8 @@ def s_dict(N, ansatz, K, order):
     
     firstorder = [0]*len(ansatz)
     s_dict = {tuple([0]*N) : ([firstorder], [1])}
+
+    
     #index of last nonzeror element in firstorder
     def next_order(list, last_nonzero,add_order, calc = True, factor = 1, state = [0]*N):
         if calc:

@@ -5,6 +5,7 @@ from custom_optimizer import *
 from pauli_objects import *
 from Energy_funcions import *
 from Ansatzes_Hamiltonians import *
+from cirq_energy import *
 
 def find_new_branch(K_tree, node, K_path, shuffle = False):
 
@@ -24,7 +25,8 @@ def find_new_branch(K_tree, node, K_path, shuffle = False):
     for i in magic_gates:
         tree_i = node+(i,)
         K_i = K_tree[tree_i]["K"]
-        if not K_tree[tree_i]['seen'] and list(K_i) not in K_path:
+        reduced_K_i = [k%4 for k in K_i]
+        if not K_tree[tree_i]['seen'] and list(reduced_K_i) not in K_path:
             updated = True
             return tree_i
 
@@ -60,8 +62,11 @@ def output(K_tree, optim_node, termination, matrix_min, ansatz, N, H, log = True
 @timing
 def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, matrix_min = None, HVA = False):
 
-    H_m = sum([h.matrix_repr() for h in H])
-    ansatz_m = [a.matrix_repr() for a in ansatz]
+    #convert to cirq objects
+    H_cirq = sum([h.cirq_repr() for h in H])
+    ansatz_cirq = [a.cirq_repr() for a in ansatz]
+
+
     N_K = iterations #number of iterations
 
      #random initial K-cell
@@ -83,12 +88,13 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
     optim_node = (0,0) #node with lowest energy
     epsilon = 1e-3 # angle close enough to magic border of pi/8
     E_epsilon = 1e-5 # Energy must not increase with more than this value
-    K_path = [] #store all K's visited
+    K_path = [] #store all K's visited modulo 4
 
     #calculate minimum
     start = time()
     if matrix_min is None:
-        matrix_min = scipy.optimize.minimize(Energy_matrix, theta_init, jac = False, args = (N,H_m,ansatz_m, K, HVA))
+        matrix_min = scipy.optimize.minimize(cirq_Energy, theta_init, jac = False, args = (N, ansatz_cirq, H_cirq, K, HVA))
+        print(matrix_min.fun)
     end = time()
     print(f"{'Time to find local minimum:':<25} {f'{end-start}'}\n")
     if log: print("LOG")
@@ -114,7 +120,6 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
             #translate to angles in current K_cell
             init_angles = global_to_local_angle(prev_angles_global, K)
 
-        print(K)
         optimizer = E_optimizer(energy, init_angles, args = args)
         result = optimizer.optim()
 
@@ -132,7 +137,7 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
         K_tree[curr_node]["angles"] = result.x
 
         #add K-vector corresponding to curr_node to K_path
-        K_path += [list(K).copy()]
+        K_path += [([k%4 for k in list(K).copy()])]
 
         if log:
             print("-"*30)
@@ -183,20 +188,25 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
         #update previous energy
         Energy_prev = Energy
 
+
+    ansatz_m = [a.matrix_repr() for a in ansatz]
+    H_m = sum([h.matrix_repr() for h in H])
     #ouput
-    out, E_a = output(K_tree, optim_node, termination, matrix_min,ansatz_m,N,H_m, log, HVA)
+    if log:
+        output(K_tree, optim_node, termination, matrix_min,ansatz_m,N,H_m, log, HVA)
+
+    out = K_tree[optim_node]
+    E_a = cirq_Energy(out["angles"], N, ansatz_cirq, H_cirq, out["K"], HVA)
 
     #Ratio between number of nfev theta_init to theta_t and theta_a to theta_t
     theta_a = out['angles']
     K_a = out["K"]
-    appr_min = scipy.optimize.minimize(Energy_matrix, theta_a, jac = False, args = (N,H_m,ansatz_m, K_a, HVA))
-
-
+    appr_min = scipy.optimize.minimize(cirq_Energy, theta_a, jac = False, args = (N, ansatz_cirq, H_cirq, K_a, HVA))
     nfev_ratio = matrix_min.nfev/appr_min.nfev
     E_a_t = appr_min.fun #
     E_t = matrix_min.fun
     Overlap = overlap(matrix_min.x, theta_a, K_init, K_a, ansatz_m, HVA = HVA)
-
+    print("Energy of approx ", out["energy"])
     if log:
          print(f"{'Overlap <Ψ_t|Ψ_a>:':<25} {f'{Overlap}'}\n")
     print(f"nfev_t/nfev_a: {matrix_min.nfev}/{appr_min.nfev} = {matrix_min.nfev/appr_min.nfev}")
