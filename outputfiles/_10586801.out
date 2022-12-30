@@ -1,0 +1,64 @@
+[8, 'QAOA', 'TFIM', -1, 2, 6, 'hypersphere', 10]
+-7.283853027414333
+Time to find local minimum: 28.675040245056152
+
+func:'s_dict'  took: 1.2758 sec
+func:'s_dict'  took: 0.1365 sec
+func:'s_dict'  took: 0.1242 sec
+func:'s_dict'  took: 0.1289 sec
+func:'s_dict'  took: 0.1234 sec
+func:'s_dict'  took: 0.1435 sec
+func:'s_dict'  took: 0.1365 sec
+func:'s_dict'  took: 0.1354 sec
+func:'s_dict'  took: 0.1354 sec
+func:'s_dict'  took: 0.1355 sec
+Energy of approx  -7.28386725139185
+nfev_t/nfev_a: 784/416 = 1.8846153846153846
+func:'find_K'  took: 193.8073 sec
+[8, 'QAOA', 'TFIM', -1, 2, 6, 'hypersphere', 10, 1.8846153846153846, 0.9672827700978297, -7.283852629945529, -7.283853027414333, -7.283853027392595]
+[8, 'QAOA', 'TFIM', -1, 2, 6, 'hypersphere', 10]
+-6.905018568789064
+Time to find local minimum: 21.30877113342285
+
+func:'s_dict'  took: 0.1300 sec
+func:'s_dict'  took: 0.3193 sec
+func:'s_dict'  took: 0.1159 sec
+func:'s_dict'  took: 0.1153 sec
+func:'s_dict'  took: 0.1152 sec
+func:'s_dict'  took: 0.1247 sec
+func:'s_dict'  took: 0.1246 sec
+func:'s_dict'  took: 0.1268 sec
+func:'s_dict'  took: 0.1273 sec
+func:'s_dict'  took: 0.1261 sec
+Energy of approx  -7.044435069515315
+nfev_t/nfev_a: 608/464 = 1.3103448275862069
+func:'find_K'  took: 156.1525 sec
+[8, 'QAOA', 'TFIM', -1, 2, 6, 'hypersphere', 10, 1.3103448275862069, 0.8254428594410862, -7.044762710989255, -6.905018568789064, -7.28272819832358]
+[8, 'QAOA', 'TFIM', -1, 2, 6, 'hypersphere', 10]
+-7.2838530274125395
+Time to find local minimum: 34.13403630256653
+
+func:'s_dict'  took: 0.1162 sec
+func:'s_dict'  took: 0.1187 sec
+func:'s_dict'  took: 0.3516 sec
+func:'s_dict'  took: 0.1128 sec
+func:'s_dict'  took: 0.1126 sec
+func:'s_dict'  took: 0.1190 sec
+func:'s_dict'  took: 0.1323 sec
+func:'s_dict'  took: 0.1329 sec
+func:'s_dict'  took: 0.1341 sec
+func:'s_dict'  took: 0.1290 sec
+Energy of approx  -7.151763229694858
+nfev_t/nfev_a: 976/352 = 2.772727272727273
+func:'find_K'  took: 180.0162 sec
+[8, 'QAOA', 'TFIM', -1, 2, 6, 'hypersphere', 10, 2.772727272727273, 0.5647135937973815, -7.151765516250911, -7.2838530274125395, -7.15176573842954]
+[8, 'QAOA', 'TFIM', -1, 2, 6, 'hypersphere', 10]
+-9.486556663470232
+Time to find local minimum: 29.146780490875244
+
+func:'s_dict'  took: 0.1243 sec
+func:'s_dict'  took: 0.1252 sec
+func:'s_dict'  took: 0.1169 sec
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 10586801 ON r28n2 CANCELLED AT 2022-12-30T15:06:56 DUE TO TIME LIMIT ***
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [03:13<12:55, 193.81s/it] 40%|████      | 2/5 [05:50<08:35, 171.72s/it] 60%|██████    | 3/5 [08:50<05:51, 175.51s/it]slurmstepd: error: *** STEP 10586801.0 ON r28n2 CANCELLED AT 2022-12-30T15:06:56 DUE TO TIME LIMIT ***

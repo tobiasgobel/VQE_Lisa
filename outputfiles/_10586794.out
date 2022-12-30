@@ -1,0 +1,51 @@
+[8, 'QAOA', 'TFIM', -1, 2, 6, 'hypersphere', 10]
+-9.486556663468622
+Time to find local minimum: 27.795694828033447
+
+func:'s_dict'  took: 1.2645 sec
+func:'s_dict'  took: 0.1442 sec
+func:'s_dict'  took: 0.1438 sec
+func:'s_dict'  took: 0.1417 sec
+func:'s_dict'  took: 0.1462 sec
+func:'s_dict'  took: 0.1421 sec
+func:'s_dict'  took: 0.1435 sec
+func:'s_dict'  took: 0.1285 sec
+func:'s_dict'  took: 0.1402 sec
+func:'s_dict'  took: 0.1409 sec
+Energy of approx  -9.482215600675996
+nfev_t/nfev_a: 768/432 = 1.7777777777777777
+func:'find_K'  took: 217.5131 sec
+[8, 'QAOA', 'TFIM', -1, 2, 6, 'hypersphere', 10, 1.7777777777777777, 0.9989438794017214, -9.4850585092992, -9.486556663468622, -9.486556663470036]
+[8, 'QAOA', 'TFIM', -1, 2, 6, 'hypersphere', 10]
+-7.28272819833893
+Time to find local minimum: 20.764750719070435
+
+func:'s_dict'  took: 0.1467 sec
+func:'s_dict'  took: 0.3463 sec
+func:'s_dict'  took: 0.1370 sec
+func:'s_dict'  took: 0.1350 sec
+func:'s_dict'  took: 0.1374 sec
+func:'s_dict'  took: 0.1352 sec
+func:'s_dict'  took: 0.1354 sec
+func:'s_dict'  took: 0.1272 sec
+func:'s_dict'  took: 0.1359 sec
+func:'s_dict'  took: 0.1357 sec
+Energy of approx  -7.185998461935685
+nfev_t/nfev_a: 576/448 = 1.2857142857142858
+func:'find_K'  took: 219.8639 sec
+[8, 'QAOA', 'TFIM', -1, 2, 6, 'hypersphere', 10, 1.2857142857142858, 0.9900146863963065, -7.258051873622621, -7.28272819833893, -7.282728198342752]
+[8, 'QAOA', 'TFIM', -1, 2, 6, 'hypersphere', 10]
+-7.283853027364789
+Time to find local minimum: 25.588382720947266
+
+func:'s_dict'  took: 0.1434 sec
+func:'s_dict'  took: 0.1466 sec
+func:'s_dict'  took: 0.4532 sec
+func:'s_dict'  took: 0.1318 sec
+func:'s_dict'  took: 0.1472 sec
+func:'s_dict'  took: 0.1428 sec
+func:'s_dict'  took: 0.1469 sec
+func:'s_dict'  took: 0.1473 sec
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 10586794 ON r28n2 CANCELLED AT 2022-12-30T14:51:26 DUE TO TIME LIMIT ***
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [03:37<14:30, 217.51s/it] 40%|████      | 2/5 [07:17<10:56, 218.90s/it]slurmstepd: error: *** STEP 10586794.0 ON r28n2 CANCELLED AT 2022-12-30T14:51:26 DUE TO TIME LIMIT ***

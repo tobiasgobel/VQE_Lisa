@@ -3,18 +3,19 @@ from K_cell_searching import *
 from cirq_energy import *
 from time import time
 from visualize_landscape import *
-N = 6
+N = 21
 H = TFIM(N,1)
 HVA = False
 ansatz = QAOA(N, 2)
 Nfeval = 1
 print(f"length of ansatz: {len(ansatz)}")
-matrix_ansatz = [t.matrix_repr() for t in ansatz]
-matrix_H = sum([h.matrix_repr() for h in H])
+# matrix_ansatz = [t.matrix_repr() for t in ansatz]
+# matrix_H = sum([h.matrix_repr() for h in H])
 
-def callbackF(Xi, ):
+def callbackF(Xi, state):
     global Nfeval
-    print('{0:4d}   {1: 3.6f}   {2: 3.6f}   {3: 3.6f}   {4: 3.6f}'.format(Nfeval, Xi[0], Xi[1], Xi[2], Xi[3]))
+    E = state.fun
+    print('{0:4d}   {1: 3.6f}   {2: 3.6f}   {3: 3.6f}   {4: 3.6f}  {5: 3.6f}'.format(Nfeval, Xi[0], Xi[1], Xi[2], Xi[3], E))
     Nfeval += 1
 
 
@@ -28,12 +29,12 @@ else:
     K = np.random.randint(0,3,len(ansatz))-1
 
 
-order = 6
+order = 4
 
 
 time_matrix  = time()
 #Energy with matrix calculation
-E_matrix = Energy_matrix(thetas, N, matrix_H, matrix_ansatz, K)
+E_matrix = 0#Energy_matrix(thetas, N, matrix_H, matrix_ansatz, K)
 time_matrix = time() - time_matrix
 
 #Energy with approximation method
@@ -45,7 +46,6 @@ G_K = G_k(N, H, ansatz,K)
 E_expansion = energy(thetas, s, G_K, order, HVA = HVA)
 time_expansion = time() - time_expansion
 print(time_expansion)
-
 
 
 #Energy with cirq
@@ -72,26 +72,21 @@ print(f"{'E_cirq:':<25} {f'{E_cirq}'}\n", f"{'time:':<25} {f'{time_cirq}'}\n")
 
 
 
-# args = (s, G_K, order, HVA)
-# opt = E_optimizer(energy, thetas, args = args, boundary = "hypersphere", epsilon= 1e-3)
-# E = opt.optim()
 
-E = scipy.optimize.minimize(Energy_matrix, thetas, args = (N, matrix_H, matrix_ansatz, K))
+# E = scipy.optimize.minimize(Energy_matrix, thetas, args = (N, matrix_H, matrix_ansatz, K))
 
-angles = E.x
-# print("After optimization:", end = "\n\n")
-# print("E_approximated:", E.fun)
-# print("E_cirq:", cirq_Energy(angles, N, ansatz_cirq, H_cirq, K))
-minimized_cirq = scipy.optimize.minimize(cirq_Energy, thetas, args = (N, ansatz_cirq, H_cirq, K))
+# angles = E.x
 
-# 
-angles = minimized_cirq.x
-print(E.fun, minimized_cirq.fun)
+# minimized_cirq = scipy.optimize.minimize(cirq_Energy, thetas, args = (N, ansatz_cirq, H_cirq, K))
 
-args = (N, ansatz_cirq, H_cirq, K)
-args2 = (N, matrix_H, matrix_ansatz, K)
-landscape_visualize(angles, cirq_Energy, args, scale = .01,num_directions=len(ansatz), filename = "cirq-landscape.png")
-landscape_visualize(angles, Energy_matrix, args2, scale = .01, num_directions = len(ansatz), filename = "matrix-landscape.png")
+# # 
+# angles = minimized_cirq.x
+# print(E.fun, minimized_cirq.fun)
+
+# args = (N, ansatz_cirq, H_cirq, K)
+# args2 = (N, matrix_H, matrix_ansatz, K)
+# landscape_visualize(angles, cirq_Energy, args, scale = np.pi ,num_directions=len(ansatz), filename = "cirq-landscape.png")
+# landscape_visualize(angles, Energy_matrix, args2, scale = np.pi , num_directions = len(ansatz), filename = "matrix-landscape.png")
 
 # print("E_cirq minimized:", minimized_cirq)
 # print("angles cirq minimized:", minimized_cirq.x)

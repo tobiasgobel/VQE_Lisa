@@ -17,6 +17,12 @@ class E_optimizer:
                 #quit optimization
                 return True
     
+    def constraint(self, thetas):
+        corner = np.sqrt(len(thetas)*(np.pi/8)**2)
+        norm = np.linalg.norm(thetas)
+        return corner - norm
+
     def optim(self):
-        opt = scipy.optimize.minimize(self.func, self.x0, jac = False, callback  =self.callback ,args = self.args, method = "trust-constr")
+        con = {'type':"ineq", 'fun':self.constraint}
+        opt = scipy.optimize.minimize(self.func, self.x0, jac = False,args = self.args, constraints = con)
         return opt

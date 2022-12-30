@@ -1,0 +1,7 @@
+[8, 'QAOA', 'TFIM', -1, 8, 6, 'hypersphere', 10]
+-9.733604018098578
+Time to find local minimum: 63.25091886520386
+
+  0%|          | 0/5 [00:00<?, ?it/s]slurmstepd: error: Detected 1 oom-kill event(s) in StepId=10586859.0. Some of your processes may have been killed by the cgroup out-of-memory handler.
+srun: error: r28n2: task 0: Out Of Memory
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=10586859.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.

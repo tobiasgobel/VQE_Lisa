@@ -33,7 +33,10 @@ def dict_multiplication(k,values,thetas):
     for i in range(k.shape[0]):
         product = 1
         for j in range(k.shape[1]):
-            product*=(np.sin(thetas[j]))**k[i,j]*(np.cos(thetas[j]))**(-k[i,j]+1)
+          if k[i,j] == 0:
+            product*= np.cos(thetas[j])
+          else:
+            product*= np.sin(thetas[j])
         sum += product*values[i]
     return sum
 
@@ -47,7 +50,6 @@ def Normalize(s_d, thetas, order):
         sum += np.conj(factor1)*factor
 
     return sum
-
 
 def energy(thetas, s_dict,G_K, order, HVA=False):
   N = len(list(s_dict.keys())[0])

@@ -12,8 +12,8 @@ def cirq_Energy(theta, N, cirq_ansatz, cirq_Hamiltonian, K, HVA = False):
     circuit = cirq.Circuit(cirq_ansatz)
 
     #evaluate the circuit
-    simulator = cirq.Simulator()
-    #calclate hamiltonian and identity
+    simulator = cirq.Simulator(dtype = np.complex128)
+    #calclate hamiltonian
     return simulator.simulate_expectation_values(circuit, cirq_Hamiltonian)[0].real
 
 
