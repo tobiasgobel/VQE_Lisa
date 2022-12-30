@@ -122,11 +122,14 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
 
         optimizer = E_optimizer(energy, init_angles, args = args)
         result = optimizer.optim()
-
         #get indices of magic gates
-        magic_indices = np.where(np.pi/8 -  np.abs(result.x)< epsilon)
+        gates_zipped = zip(np.pi/8 - abs(result.x), range(len(result.x)))
+        gates_sorted = sorted(gates_zipped)
+        magic_indices = [gates_sorted[1] for gates_sorted in gates_sorted if gates_sorted[0] < epsilon]
 
-        N_magic = len(magic_indices[0])
+
+
+        N_magic = len(magic_indices)
         Energy = result.fun
 
 
@@ -158,7 +161,7 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
 
         #include new branches
         for i in range(N_magic):
-            magic_index = magic_indices[0][i]
+            magic_index = magic_indices[i]
             sign = np.sign(result.x[magic_index])
             K_i = K_tree[curr_node]["K"].copy()
             if HVA:

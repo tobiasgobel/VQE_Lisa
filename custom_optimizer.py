@@ -15,9 +15,8 @@ class E_optimizer:
             norm = np.linalg.norm(x)
             if corner - norm < self.epsilon:
                 #quit optimization
-                print("Optimization stopped because of boundary condition")
                 return True
     
     def optim(self):
-        opt = scipy.optimize.minimize(self.func, self.x0, jac = False, args = self.args, method = "trust-constr")
+        opt = scipy.optimize.minimize(self.func, self.x0, jac = False, callback  =self.callback ,args = self.args, method = "trust-constr")
         return opt
