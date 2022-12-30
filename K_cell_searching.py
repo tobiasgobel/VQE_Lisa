@@ -122,9 +122,14 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
 
         optimizer = E_optimizer(energy, init_angles, args = args)
         result = optimizer.optim()
+
         #get indices of magic gates
         gates_zipped = zip(np.pi/8 - abs(result.x), range(len(result.x)))
+
+        #sort by distance to magic angle
         gates_sorted = sorted(gates_zipped)
+
+        #get indices of gates close enough to magic angle
         magic_indices = [gates_sorted[1] for gates_sorted in gates_sorted if gates_sorted[0] < epsilon]
 
 
@@ -209,7 +214,6 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
     E_a_t = appr_min.fun #
     E_t = matrix_min.fun
     Overlap = overlap(matrix_min.x, theta_a, K_init, K_a, ansatz_m, HVA = HVA)
-    print("Energy of approx ", out["energy"])
     if log:
          print(f"{'Overlap <Ψ_t|Ψ_a>:':<25} {f'{Overlap}'}\n")
     print(f"nfev_t/nfev_a: {matrix_min.nfev}/{appr_min.nfev} = {matrix_min.nfev/appr_min.nfev}")

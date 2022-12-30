@@ -1,13 +1,13 @@
 from K_cell_searching import *
 from tqdm import tqdm
 N = 6
-L = 2
-HVA = False
+L = 6
+HVA = 8
 X_H = -1
 ansatz = QAOA(N, L)
 H = TFIM(N, X_H)
 iterations = 10
-order = 4
+order = 6
 boundary = "hypersphere"
 filename = "result_optim_3.csv"
 matrix_min = None
