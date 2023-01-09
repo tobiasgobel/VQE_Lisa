@@ -3,7 +3,7 @@ from K_cell_searching import *
 from cirq_energy import *
 from time import time
 from visualize_landscape import *
-N = 21
+N = 10
 H = TFIM(N,1)
 HVA = False
 ansatz = QAOA(N, 2)
