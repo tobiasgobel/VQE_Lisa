@@ -5,8 +5,8 @@ from time import time
 from visualize_landscape import *
 N = 10
 H = TFIM(N,1)
-HVA = False
-ansatz = QAOA(N, 2)
+HVA = 10
+ansatz = QAOA(N, 10)
 Nfeval = 1
 print(f"length of ansatz: {len(ansatz)}")
 # matrix_ansatz = [t.matrix_repr() for t in ansatz]
@@ -25,11 +25,11 @@ if HVA:
     K = distribute_over_gates(HVA, N, K)
 
 else:
-    thetas = (np.random.rand(len(ansatz))-.5)*np.pi/4
-    K = np.random.randint(0,3,len(ansatz))-1
+    thetas =np.ones(len(ansatz))# (np.random.rand(len(ansatz))-.5)*np.pi/4
+    K = np.zeros(len(ansatz), dtype  = int)#np.random.randint(0,3,len(ansatz))-1
 
-
-order = 4
+print(len(K), len(thetas))
+order = 6
 
 
 time_matrix  = time()
@@ -52,7 +52,7 @@ print(time_expansion)
 time_cirq = time()
 H_cirq = sum([h.cirq_repr() for h in H])
 ansatz_cirq = [a.cirq_repr() for a in ansatz]
-E_cirq = cirq_Energy(thetas, N, ansatz_cirq, H_cirq, K)
+E_cirq = cirq_Energy(thetas, N, ansatz_cirq, H_cirq, K, HVA)
 time_cirq = time() - time_cirq
 
 

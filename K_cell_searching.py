@@ -6,6 +6,7 @@ from pauli_objects import *
 from Energy_funcions import *
 from Ansatzes_Hamiltonians import *
 from cirq_energy import *
+from tqdm import tqdm
 
 def find_new_branch(K_tree, node, K_path, shuffle = False):
 
@@ -99,7 +100,7 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
     print(f"{'Time to find local minimum:':<25} {f'{end-start}'}\n")
     if log: print("LOG")
 
-    for iter in range(N_K):
+    for iter in tqdm(range(N_K)):
 
         K = K_tree[curr_node]["K"]
         s = s_dict(N, ansatz, K, order)

@@ -33,10 +33,10 @@ def dict_multiplication(k,values,thetas):
     for i in range(k.shape[0]):
         product = 1
         for j in range(k.shape[1]):
-          if k[i,j] == 0:
-            product*= np.cos(thetas[j])
-          else:
+          if k[i,j] == 1:
             product*= np.sin(thetas[j])
+          else:
+            product*= np.cos(thetas[j])
         sum += product*values[i]
     return sum
 
