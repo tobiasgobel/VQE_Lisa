@@ -3,12 +3,16 @@ from K_cell_searching import *
 from cirq_energy import *
 from time import time
 from visualize_landscape import *
+from sys import getsizeof
 N = 10
-H = TFIM(N,1)
+H = TFIM(N,1,array_method = True)
 HVA = 10
-ansatz = QAOA(N, 10)
+ansatz = QAOA(N, 10, array_method=True)
+order = 4
 Nfeval = 1
-print(f"length of ansatz: {len(ansatz)}")
+print(f"Number of qubits: {N}")
+print(f"Length of ansatz: {len(ansatz)}")
+print(f"Order of approx: {order}")
 # matrix_ansatz = [t.matrix_repr() for t in ansatz]
 # matrix_H = sum([h.matrix_repr() for h in H])
 
@@ -20,16 +24,18 @@ def callbackF(Xi, state):
 
 
 if HVA:
-    thetas = (np.random.rand(HVA)-.5)*np.pi/4
-    K = np.random.randint(0,3,HVA)-1
+    # thetas = (np.random.rand(HVA)-.5)*np.pi/4
+    # K = np.random.randint(0,3,HVA)-1
+
+    thetas = np.ones(HVA)
+    K = np.zeros(HVA,dtype = int)
     K = distribute_over_gates(HVA, N, K)
 
 else:
     thetas =np.ones(len(ansatz))# (np.random.rand(len(ansatz))-.5)*np.pi/4
     K = np.zeros(len(ansatz), dtype  = int)#np.random.randint(0,3,len(ansatz))-1
 
-print(len(K), len(thetas))
-order = 6
+
 
 
 time_matrix  = time()
@@ -41,6 +47,8 @@ time_matrix = time() - time_matrix
 time_expansion = time()
 s = s_dict(N, ansatz, K, order)
 
+
+print(f"memory s-dict: {getsizeof(s)}")
 #s = s_dict(N, ansatz, K, order)
 G_K = G_k(N, H, ansatz,K)
 E_expansion = energy(thetas, s, G_K, order, HVA = HVA)

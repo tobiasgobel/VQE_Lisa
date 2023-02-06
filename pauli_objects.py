@@ -65,6 +65,8 @@ class pauli:
       a *= factor
     return a, tuple(init_state)
 
+
+
     
 #creating lists of operators and corresponding positions
   def split(self):

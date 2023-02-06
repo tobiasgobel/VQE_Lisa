@@ -34,7 +34,7 @@ def find_new_branch(K_tree, node, K_path, shuffle = False):
     if not updated:
         return find_new_branch(K_tree, node_up, K_path)
 
-def output(K_tree, optim_node, termination, matrix_min, ansatz, N, H, log = True, HVA = False):
+def output(K_tree, optim_node, termination, matrix_min, ansatz, N, H, log = True, HVA = False, method = "SLSQP"):
     #get node with lowest energy
     K_best = K_tree[optim_node]
     angles = K_best['angles']
@@ -61,7 +61,7 @@ def output(K_tree, optim_node, termination, matrix_min, ansatz, N, H, log = True
     
 
 @timing
-def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, matrix_min = None, HVA = False):
+def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, matrix_min = None, HVA = False, method = "BFGS"):
 
     #convert to cirq objects
     H_cirq = sum([h.cirq_repr() for h in H])
@@ -72,8 +72,8 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
 
      #random initial K-cell
     if HVA:
-        theta_init = [1/np.pi/16]*HVA
-        K_init = list(np.random.randint(0,4, HVA))
+        theta_init = HVA_initialisation(HVA, 3*np.pi/16)
+        K_init = [0]*HVA
         K_init = distribute_over_gates(HVA, N, K_init)
     else:
         theta_init = [1/np.pi/16]*len(ansatz)
@@ -94,7 +94,7 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
     #calculate minimum
     start = time()
     if matrix_min is None:
-        matrix_min = scipy.optimize.minimize(cirq_Energy, theta_init, jac = False, args = (N, ansatz_cirq, H_cirq, K, HVA))
+        matrix_min = scipy.optimize.minimize(cirq_Energy, theta_init, args = (N, ansatz_cirq, H_cirq, K, HVA))
         print(matrix_min.fun)
     end = time()
     print(f"{'Time to find local minimum:':<25} {f'{end-start}'}\n")
@@ -116,12 +116,12 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
             prev_angles_global = local_to_global_angle(node_above["angles"], shorten_vector(HVA, N, node_above["K"]))
             init_angles = global_to_local_angle(prev_angles_global, shorten_vector(HVA, N, K))
         else:   
-            args = (s, G_K, order)
+            args = (s, G_K, order, HVA)
             prev_angles_global = local_to_global_angle(node_above["angles"], node_above["K"])
             #translate to angles in current K_cell
             init_angles = global_to_local_angle(prev_angles_global, K)
 
-        optimizer = E_optimizer(energy, init_angles, args = args)
+        optimizer = E_optimizer(energy, init_angles, method = method, args = args)
         result = optimizer.optim()
 
         #get indices of magic gates
@@ -132,6 +132,7 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
 
         #get indices of gates close enough to magic angle
         magic_indices = [gates_sorted[1] for gates_sorted in gates_sorted if gates_sorted[0] < epsilon]
+        print(magic_indices)
 
 
 
@@ -157,6 +158,7 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
         #if Energy increases, find new branch skip iteration
         if Energy - Energy_prev > E_epsilon:
             new_node = find_new_branch(K_tree, curr_node[:-1], K_path)
+            print(curr_node, Energy, shorten_vector(HVA, N, K_tree[curr_node]["K"]))
             if type(new_node)!=tuple:
                 termination = "Whole tree has been explored"
                 break
@@ -188,6 +190,7 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
 
         #update current node
         new_node = find_new_branch(K_tree, curr_node, K_path)
+        print(curr_node, Energy, shorten_vector(HVA, N, K_tree[curr_node]["K"]))
         if type(new_node)!=tuple:
             termination = "Whole tree has been explored"
             break
@@ -196,6 +199,7 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
 
         #update previous energy
         Energy_prev = Energy
+        
 
 
     ansatz_m = [a.matrix_repr() for a in ansatz]

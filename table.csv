@@ -1,0 +1,26 @@
+
+N, ansatz, model, layers, order, boundary, iterations, method, nfev-ratio, overlap, E_a, E_t, E_a_t, time
+2,QAOA,TFIM,-1,2,6,hypersphere,10,Nelder-Mead,2.2,1.0,-2.236,-2.236,-2.236
+2,QAOA,TFIM,-1,2,6,hypersphere,10,Powell,11.0,1.0,-2.236,-2.236,-2.236
+2,QAOA,TFIM,-1,2,6,hypersphere,10,CG,11.0,1.0,-2.236,-2.236,-2.236
+2,QAOA,TFIM,-1,2,6,hypersphere,10,BFGS,11.0,1.0,-2.236,-2.236,-2.236
+2,QAOA,TFIM,-1,2,6,hypersphere,10,L-BFGS-B,11.0,1.0,-2.236,-2.236,-2.236
+2,QAOA,TFIM,-1,2,6,hypersphere,10,TNC,3.667,1.0,-2.236,-2.236,-2.236
+2,QAOA,TFIM,-1,2,6,hypersphere,10,COBYLA,2.2,1.0,-2.236,-2.236,-2.236
+2,QAOA,TFIM,-1,2,6,hypersphere,10,SLSQP,3.667,1.0,-2.236,-2.236,-2.236
+3,QAOA,TFIM,-1,4,6,hypersphere,10,Nelder-Mead,0.773,0.741,-1.314,-3.494,-3.491
+3,QAOA,TFIM,-1,4,6,hypersphere,10,Powell,1.7,1.0,-3.494,-3.494,-3.494
+3,QAOA,TFIM,-1,4,6,hypersphere,10,CG,1.7,1.0,-3.494,-3.494,-3.494
+3,QAOA,TFIM,-1,4,6,hypersphere,10,BFGS,1.7,1.0,-3.494,-3.494,-3.494
+3,QAOA,TFIM,-1,4,6,hypersphere,10,L-BFGS-B,1.214,0.987,-3.402,-3.494,-3.494
+3,QAOA,TFIM,-1,4,6,hypersphere,10,TNC,1.889,1.0,-3.494,-3.494,-3.494
+3,QAOA,TFIM,-1,4,6,hypersphere,10,COBYLA,1.7,1.0,-3.494,-3.494,-3.494
+3,QAOA,TFIM,-1,4,6,hypersphere,10,SLSQP,1.308,0.999,-3.489,-3.494,-3.494
+4,QAOA,TFIM,-1,4,6,hypersphere,10,Nelder-Mead,1.214,0.991,-4.697,-4.735,-4.721,13.064661026000977
+4,QAOA,TFIM,-1,4,6,hypersphere,10,Powell,0.354,0.449,0.208,-4.735,-4.735,19.333168029785156
+4,QAOA,TFIM,-1,4,6,hypersphere,10,CG,0.708,0.805,-3.075,-4.735,-4.721,24.36555314064026
+4,QAOA,TFIM,-1,4,6,hypersphere,10,BFGS,1.0,0.986,-4.674,-4.735,-4.695,11.09560775756836
+4,QAOA,TFIM,-1,4,6,hypersphere,10,L-BFGS-B,1.0,0.986,-4.674,-4.735,-4.695,11.62694501876831
+4,QAOA,TFIM,-1,4,6,hypersphere,10,TNC,1.7,1.0,-4.732,-4.735,-4.735,7.8266921043396
+4,QAOA,TFIM,-1,4,6,hypersphere,10,COBYLA,1.417,0.999,-4.73,-4.735,-4.735,8.26927375793457
+4,QAOA,TFIM,-1,4,6,hypersphere,10,SLSQP,1.545,0.999,-4.73,-4.735,-4.735,7.150918960571289

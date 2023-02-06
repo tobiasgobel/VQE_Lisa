@@ -2,12 +2,13 @@ import scipy
 import numpy as np
 
 class E_optimizer:
-    def __init__(self, func, x0, args = (), boundary = "hypersphere", epsilon= 1e-4):
+    def __init__(self, func, x0, args = (), boundary = "hypersphere", epsilon= 1e-4, method = "SLSQP"):
         self.func = func
         self.x0 = np.asarray(x0)
         self.boundary = boundary
         self.epsilon = epsilon
         self.args = args
+        self.method = method
 
     def callback(self, x, *args):
         if self.boundary == "hypersphere":
@@ -24,5 +25,5 @@ class E_optimizer:
 
     def optim(self):
         con = {'type':"ineq", 'fun':self.constraint}
-        opt = scipy.optimize.minimize(self.func, self.x0, jac = False,args = self.args, constraints = con)
+        opt = scipy.optimize.minimize(self.func, self.x0, jac = False,args = self.args, constraints = con, method = self.method)
         return opt

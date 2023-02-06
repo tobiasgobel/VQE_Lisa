@@ -1,37 +1,44 @@
 from K_cell_searching import *
 from tqdm import tqdm
-N = 6
-L = 6
-HVA = 6
-X_H = -1
-ansatz = QAOA(N, L)
-H = TFIM(N, X_H)
-iterations = 10
-order = 6
-boundary = "hypersphere"
-filename = "result_optim_3.csv"
-matrix_min = None
-input = [N, "QAOA", "TFIM", X_H, L, order, boundary, iterations]
 
-for _ in tqdm(range(2)):
+for N in range(4,7):
+    L = N + N%2
+    HVA = L
+    X_H = -1
+    ansatz = QAOA(N, L)
+    H = TFIM(N, X_H)
+    iterations = 10
+    order = 6
+    boundary = "hypersphere"
+    filename = "table.csv"
+    matrix_min = None
+    input = [N, "QAOA", "TFIM", X_H, L, order, boundary, iterations]
+    #gradient-free optimization
+    #methods = ["Nelder-Mead", "Powell", "CG", "BFGS", "L-BFGS-B", "TNC", "COBYLA", "SLSQP", "trust-constr", "dogleg", "trust-ncg", "trust-exact", "trust-krylov"]
+    methods = ["Nelder-Mead", "Powell", "CG", "BFGS", "L-BFGS-B", "TNC", "COBYLA", "SLSQP"]
+    for method in methods:
+        start = time()
+        print(f"method: {method}")
 
-    print(input)
-    nfev_ratio, Overlap, E_a, E_t, E_a_t,_ = find_K(N, ansatz, H, iterations, order, log = False, matrix_min = matrix_min, HVA =HVA)
-    output = [nfev_ratio, Overlap, E_a, E_t, E_a_t]
+        print(input)
+        nfev_ratio, Overlap, E_a, E_t, E_a_t,_ = find_K(N, ansatz, H, iterations, order, log = True, matrix_min = matrix_min, HVA =HVA, method = method)
+        output = [nfev_ratio, Overlap, E_a, E_t, E_a_t]
+        #round numbers to 3 decimals
+        output  = [round(i, 3) for i in output]
 
-    line = input + output 
-    print(line)
+        line = input + [method] + output + [time() - start]
+        print(line)
 
-    from csv import writer
-    with open(filename, 'a') as f_object:
-    
-        # Pass this file object to csv.writer()
-        # and get a writer object
-        writer_object = writer(f_object)
-    
-        # Pass the list as an argument into
-        # the writerow()
-        writer_object.writerow(line)
-    
-        # Close the file object
-        f_object.close()
+        from csv import writer
+        with open(filename, 'a') as f_object:
+        
+            # Pass this file object to csv.writer()
+            # and get a writer object
+            writer_object = writer(f_object)
+        
+            # Pass the list as an argument into
+            # the writerow()
+            writer_object.writerow(line)
+        
+            # Close the file object
+            f_object.close()

@@ -32,7 +32,9 @@ def s_dict(N, ansatz, K, order):
                 next_order(list, 1+last_nonzero, add_order, calc = False, factor = factor, state = state)
 
     next_order(firstorder, -1, order, calc = False)
+
     for st in s_dict:
         lst = s_dict[st]
         s_dict[st] = (np.array(lst[0]),np.array(lst[1]))
+
     return s_dict

@@ -62,9 +62,13 @@ def single_pauli_action(pauli, spin):
 
 def distribute_over_gates(L, N, vector):
     out = []
-    for i in range(int(L/2)):
-        out += [vector[i]]*(N-1)
-        out += [vector[int(i+1)]]*N
+    assert len(vector) == L
+    for i in range(L):
+        if i%2 == 0:
+            out += [vector[i]]*(N-1)
+        else:
+            out += [vector[i]]*N
+    assert len(out) == L*(N-1+N)/2
     return np.array(out)
 
 def shorten_vector(L,N, vector):
@@ -207,3 +211,20 @@ def str_to_lst(N,string):
         else:
             lst+="I"
     return lst
+
+
+def HVA_initialisation(HVA, max_angle):
+    thetas = []
+    linspace = np.linspace(1e-4, max_angle, HVA//2)
+    for gate in range(HVA):
+        if gate%2 == 1:
+            thetas.append(max_angle)
+        elif gate%2 == 0:
+            thetas.append(linspace[int(gate/2)])
+    return thetas
+
+
+vector = np.array([1,0,0,0])
+vector[3]+=1
+print(vector)
+print(distribute_over_gates(4, 3, vector))
