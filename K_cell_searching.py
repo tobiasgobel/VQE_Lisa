@@ -7,6 +7,7 @@ from Energy_funcions import *
 from Ansatzes_Hamiltonians import *
 from cirq_energy import *
 from tqdm import tqdm
+from visualize_landscape import *
 
 def find_new_branch(K_tree, node, K_path, shuffle = False):
 
@@ -94,7 +95,7 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
     #calculate minimum
     start = time()
     if matrix_min is None:
-        matrix_min = scipy.optimize.minimize(cirq_Energy, theta_init, args = (N, ansatz_cirq, H_cirq, K, HVA))
+        matrix_min = scipy.optimize.minimize(cirq_Energy, theta_init, args = (N, ansatz_cirq, H_cirq, K, HVA),method = "COBYLA", options={"rhobeg":0.01})
         print(matrix_min.fun)
     end = time()
     print(f"{'Time to find local minimum:':<25} {f'{end-start}'}\n")
@@ -214,7 +215,10 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
     #Ratio between number of nfev theta_init to theta_t and theta_a to theta_t
     theta_a = out['angles']
     K_a = out["K"]
-    appr_min = scipy.optimize.minimize(cirq_Energy, theta_a, jac = False, args = (N, ansatz_cirq, H_cirq, K_a, HVA))
+    landscape_visualize(theta_a, cirq_Energy, (N, ansatz_cirq, H_cirq, K_a, HVA), filename= "landscape.png", num_directions = len(theta_a))
+    # appr_min = scipy.optimize.minimize(cirq_Energy, theta_a, jac = False, args = (N, ansatz_cirq, H_cirq, K_a, HVA), method = 'COBYLA', options = {'rhobeg':0.01})
+    appr_min = E_optim_cirq(cirq_Energy, theta_a, args = (N, ansatz_cirq, H_cirq, K_a, HVA), plot = True).optim()
+    
     nfev_ratio = matrix_min.nfev/appr_min.nfev
     E_a_t = appr_min.fun #
     E_t = matrix_min.fun

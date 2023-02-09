@@ -1,6 +1,7 @@
 import matplotlib as plt
 import numpy as np
-from K_cell_searching import *
+import matplotlib.pyplot as plt
+
 
 def explore(point, index, r):
     theta = point.copy()
@@ -21,5 +22,6 @@ def landscape_visualize(point, E_function, args, num_directions = 5, scale = .5,
     plt.xlabel("deviation (radians)")
     plt.ylabel("Energy")
     plt.savefig("landscape_plots/"+filename)
+    plt.clf()
 
 

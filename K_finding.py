@@ -1,7 +1,7 @@
 from K_cell_searching import *
 from tqdm import tqdm
 
-for N in range(4,7):
+for N in [7]:
     L = N + N%2
     HVA = L
     X_H = -1
@@ -15,7 +15,7 @@ for N in range(4,7):
     input = [N, "QAOA", "TFIM", X_H, L, order, boundary, iterations]
     #gradient-free optimization
     #methods = ["Nelder-Mead", "Powell", "CG", "BFGS", "L-BFGS-B", "TNC", "COBYLA", "SLSQP", "trust-constr", "dogleg", "trust-ncg", "trust-exact", "trust-krylov"]
-    methods = ["Nelder-Mead", "Powell", "CG", "BFGS", "L-BFGS-B", "TNC", "COBYLA", "SLSQP"]
+    methods = ["COBYLA"]
     for method in methods:
         start = time()
         print(f"method: {method}")
@@ -26,7 +26,7 @@ for N in range(4,7):
         #round numbers to 3 decimals
         output  = [round(i, 3) for i in output]
 
-        line = input + [method] + output + [time() - start]
+        line = input + [method] + output + [np.round(time() - start, 1)]
         print(line)
 
         from csv import writer
