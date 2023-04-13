@@ -1,9 +1,9 @@
 from K_cell_searching import *
 from tqdm import tqdm
 
-for N in [7]:
-    L = N + N%2
-    HVA = L
+for N in [5]:
+    L = 2
+    HVA = False
     X_H = -1
     ansatz = QAOA(N, L)
     H = TFIM(N, X_H)
@@ -15,7 +15,7 @@ for N in [7]:
     input = [N, "QAOA", "TFIM", X_H, L, order, boundary, iterations]
     #gradient-free optimization
     #methods = ["Nelder-Mead", "Powell", "CG", "BFGS", "L-BFGS-B", "TNC", "COBYLA", "SLSQP", "trust-constr", "dogleg", "trust-ncg", "trust-exact", "trust-krylov"]
-    methods = ["COBYLA"]
+    methods = ["SLSQP"]
     for method in methods:
         start = time()
         print(f"method: {method}")

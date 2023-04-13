@@ -78,7 +78,7 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
         K_init = distribute_over_gates(HVA, N, K_init)
     else:
         theta_init = [1/np.pi/16]*len(ansatz)
-        K_init= list(np.random.randint(4, size = len(ansatz)))
+        K_init= [0]*len(ansatz)
 
     
     K = K_init.copy()

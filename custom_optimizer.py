@@ -28,7 +28,7 @@ class E_optimizer:
 
     def optim(self):
         con = {'type':"ineq", 'fun':self.constraint}
-        opt = scipy.optimize.minimize(self.func, self.x0, jac = False,args = self.args, constraints = con, method = self.method, options={'rhobeg':0.001, 'disp':True})
+        opt = scipy.optimize.minimize(self.func, self.x0, jac = False,args = self.args, constraints = con, method = self.method)
         return opt
 
 
@@ -48,20 +48,20 @@ class E_optim_cirq:
         self.energy.append(self.func(x, *self.args))
 
     def optim(self):
-        opt = scipy.optimize.minimize(self.func, self.x0,args = self.args, method = self.method, callback = self.callback)
+        opt = scipy.optimize.minimize(self.func, self.x0,args = self.args, method = self.method, callback = self.callback,options={'rhobeg':0.01})
         if self.plot:
             iterations = len(self.angles)
-            print(self.angles)
-            self.angles = np.array(self.angles).reshape(iterations, len(self.x0))
+            self.angles = np.array(self.angles).reshape(iterations, len(self.x0), order = "F")
             plt.ylabel("Angle")
             plt.xlabel("Iteration")
-            plt.plot(self.angles)
+            plt.plot(self.angles, label = ["theta_{}".format(i) for i in range(len(self.x0))])
+            plt.legend()
             plt.savefig("angles.png")
             plt.clf()
 
-            plt.ylabel("Log(Energy)")
+            plt.ylabel("Energy")
             plt.xlabel("Iteration")
-            plt.plot(np.log(self.energy))
+            plt.plot(np.log(np.abs(self.energy)))
             plt.savefig("Energy.png")
             plt.clf()
 
