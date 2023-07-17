@@ -1,8 +1,8 @@
 from K_cell_searching import *
 from tqdm import tqdm
 
-for N in [5]:
-    L = 2
+for N in [6,7]:
+    L = 4
     HVA = False
     X_H = -1
     ansatz = QAOA(N, L)

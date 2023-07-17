@@ -1,12 +1,15 @@
 import scipy
 import numpy as np
 import matplotlib.pyplot as plt
+import torch
+import torch.nn as nn
+from dataclasses import dataclass
 
 #Optimization class for optizing inside the K-cell
 class E_optimizer:
     def __init__(self, func, x0, args = (), boundary = "hypersphere", epsilon= 1e-4, method = "SLSQP"):
         self.func = func
-        self.x0 = np.asarray(x0)
+        self.x0 = torch.tensor(x0, requires_grad=True)
         self.boundary = boundary
         self.epsilon = epsilon
         self.args = args
@@ -31,10 +34,39 @@ class E_optimizer:
         opt = scipy.optimize.minimize(self.func, self.x0, jac = False,args = self.args, constraints = con, method = self.method)
         return opt
 
+@dataclass
+class Result:
+    x: np.array
+    fun: np.array
+    nfev: int
+
+def gradient_optimizer(x, f, args, max_iter, tol = 1e-4):
+    optimizer = torch.optim.Adam([x],lr=0.05)
+    x_before = np.inf
+    corner = np.sqrt(len(x)*(np.pi/8)**2)
+    for i in range(max_iter):
+        en = f(x, *args)
+        en.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+
+        #check convergence
+        # if sum(abs(x-x_before)) < tol:
+        #     print(sum(abs(x-x_before)))
+        #     return Result(x, en, i)
+        x_before = x
+
+        #check out of box
+        norm = torch.norm(x)
+        if corner - norm < 0:
+            return Result(x.detach().numpy(), en.detach().numpy(), i)
+
+    return Result(x.detach().numpy(), en.detach().numpy(), i)
+
 
 #Optimization class for optimizing between theta_a and theta_t
 class E_optim_cirq:
-    def __init__(self, func, x0, args = (), method = "COBYLA", plot=False):
+    def __init__(self, func, x0, args = (), method = "SLSQP", plot=False):
         self.func = func
         self.x0 = np.asarray(x0)
         self.args = args

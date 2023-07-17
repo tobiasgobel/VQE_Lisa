@@ -1,5 +1,5 @@
 from Func import *
-
+import torch
 
 def G_k(N, H, ansatz, K):
   g_k = []
@@ -14,7 +14,7 @@ def G_k(N, H, ansatz, K):
     g_k += [paulistring]
   return g_k
 
-@jit(nopython=True)
+# @jit(nopython=True)
 def dict_multiplication(k,values,thetas):
     sum = 0
     for i in range(k.shape[0]):
@@ -28,16 +28,16 @@ def dict_multiplication(k,values,thetas):
 def Normalize(terms):
     sum = 0
     for term in terms.values():
-      sum+= term*np.conj(term)
+      sum+= term*torch.conj(term)
     return sum
 
 
-def energy(thetas, s_dict,G_K, order, HVA=False):
+def energy(thetas, s_dict,G_K, order, HVA=False, Pytorch= True):
   N = len(list(s_dict.keys())[0])
   E = 0
   s_dict1 = s_dict
   terms = {}
-  thetas = np.tan(thetas) #convert angles to tangents 
+  thetas = np.tan(thetas) if Pytorch == False else torch.tan(thetas) #convert angles to tangents 
 
   if HVA:
     thetas = distribute_over_gates(HVA, N, thetas)
@@ -73,7 +73,7 @@ def energy(thetas, s_dict,G_K, order, HVA=False):
         B = terms[state]
 
 
-      E_a += a*A*np.conj(B)
+      E_a += a*A*torch.conj(B)
     E += E_a
   
   norm = Normalize(terms)
