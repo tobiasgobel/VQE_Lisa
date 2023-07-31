@@ -15,6 +15,36 @@ def QAOA(N:int, L:int, array_method = False):
         ansatz = [a.to_parray() for a in ansatz]
     return ansatz
 
+def random_circuit(N:int, L:int, array_method = False):
+    ansatz = []
+    assert L%2 == 0, "L is odd"
+
+    for i in range(int(L/2)):
+        sigmas = np.random.choice(["X","Y","Z"], (2,N-1))
+        sigma_3 = np.random.choice(["X","Y","Z"], N)
+
+        pair_layer = [pauli(f"{sigmas[0][i]}{i}{sigmas[1][i]}{i+1}",N) for i in range(N-1)]
+        ansatz += pair_layer
+
+        single_layer = [pauli(f"{sigma_3[i]}{i}", N) for i in range(N)]
+        
+
+        ansatz += single_layer
+
+    if array_method:
+        ansatz = [a.to_parray() for a in ansatz]
+    return ansatz
+
+
+def Z_expectation_val(N, array_method = False):
+    first_Z = pauli(f"Z{0}", N)
+    middle_Z = pauli(f"Z{int(N/2)}", N)
+
+    H = [first_Z*middle_Z]
+    if array_method:
+        H = [h.to_parray() for h in H]
+    return H
+
 def TUCC(N:int, Layers:int,array_method=False):
     XY_layer = [pauli(f"X{i}Y{i+1}", N) for i in range(N-1)]
     ansatz = XY_layer*Layers

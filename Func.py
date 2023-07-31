@@ -222,9 +222,3 @@ def HVA_initialisation(HVA, max_angle):
         elif gate%2 == 0:
             thetas.append(linspace[int(gate/2)])
     return thetas
-
-
-vector = np.array([1,0,0,0])
-vector[3]+=1
-print(vector)
-print(distribute_over_gates(4, 3, vector))

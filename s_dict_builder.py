@@ -1,5 +1,5 @@
 from Func import *
-@timing
+#@timing
 def s_dict(N, ansatz, K, order):
     T_K = pull_cliffords_through(ansatz, K, N)
     
