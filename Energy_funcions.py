@@ -75,5 +75,4 @@ def energy(thetas, s_dict,G_K, order, HVA=False, Pytorch= False):
     E += E_a
   
   norm = Normalize(terms)
-  print(norm)
   return np.real(E/norm)

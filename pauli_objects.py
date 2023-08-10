@@ -22,6 +22,16 @@ class pauli:
   #define multiplying by a constant (on left hand side)
   def __rmul__(self, c):
     return pauli(self.string,self.N, c*self.factor)
+  
+  def __neg__(self):
+    return pauli(self.string,self.N, -self.factor)
+
+  def __eq__(self, __o: object) -> bool:
+    if isinstance(__o, pauli):
+      return self.string == __o.string and self.factor == __o.factor
+    else:
+      return False
+    
 
   #define the power of a pauli string
   def __pow__(self, c):
@@ -47,6 +57,16 @@ class pauli:
       lst = [pauli_on_pauli(self.string[n],x.string[n]) for n in range(self.N)]
       self.string = [j for _,j in lst]
       self.factor *= x.factor*np.prod([i for i,_ in lst])
+
+  def commutes(self, x):
+    if isinstance(x, pauli):
+      if self*x == x*self:
+        return True
+      else:
+        return False
+    else:
+      return "Not a pauli string"
+
 
   def copy(self):
       return pauli(self.string, self.N, self.factor)

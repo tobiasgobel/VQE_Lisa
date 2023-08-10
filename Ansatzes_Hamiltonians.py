@@ -60,3 +60,30 @@ def TFIM(N, X_h, Z_h=-1,array_method=False):
     if array_method:
         H = [h.to_parray() for h in H]
     return H
+
+
+
+def lightcone(H, ansatz):
+    #H is a list of pauli objects
+    #ansatz is a list of pauli objects
+
+    #find the lightcone of the ansatz
+    lightcone = {i:[] for i in range(len(ansatz)+1)}
+    branches = {i:[] for i in range(len(ansatz)+1)}
+    branches[0] = H
+    for i, a in enumerate(ansatz[::-1]):
+        for order in reversed(range(i+1)):
+            for h in branches[order]:
+                R = a*h
+                L = h*a
+                if not R == L:
+                    for j in range(order+1, len(ansatz)):
+                        if a not in lightcone[j]:
+                            lightcone[j].append(a)
+                    branches[order+1].append(L)
+                    break
+    return lightcone
+
+
+
+            
