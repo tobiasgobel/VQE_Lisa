@@ -32,21 +32,21 @@ s = s_dict(N, ansatz, K, 2*len(ansatz), prepare_x_basis = True)
 
 
 
-# thetas = np.random.choice([0,-np.pi/2, np.pi/2, np.pi, -np.pi], len(ansatz))/2
+
 gammas = np.arange(0, np.pi/2, .04)
 energies_appr = []
 energies_exact = []
 
-First_time = True
+
 for gamma in gammas:
     thetas = np.array([gamma]*len(ansatz))
     
     print(f"gamma: {gamma}")
+
+    #E appr
     order = 10
     E_appr = energy(thetas, s, G_K, order)
     energies_appr.append(E_appr)
-
-
 
     #E cirq
     thetas_full = [-np.pi/4]*N + [gamma]*D + [-np.pi/4]*N
@@ -56,7 +56,7 @@ for gamma in gammas:
     E_cirq = cirq_Energy(thetas_full, N, ansatz_cirq, H_cirq, K)
     time_cirq = time() - time_cirq
     print(f"{'E_cirq:':<25} {f'{E_cirq}'}\n", f"{'time:':<25} {f'{time_cirq}'}\n")
-    energies_exact.append(E_exact)
+    energies_exact.append(E_cirq)
 
 
 
