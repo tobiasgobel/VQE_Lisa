@@ -4,18 +4,19 @@ from cirq_energy import *
 from time import time
 from visualize_landscape import *
 from sys import getsizeof
-N = 50
+N = 20
+
 H = Z_expectation_val(N,array_method = False)
-ansatz_full = random_circuit(N, 2, array_method=False)
-lightc = lightcone(H, ansatz_full)
+ansatz_full = random_circuit(N, 8, array_method=False)
+lightc = lightcone(H, ansatz_full, order_max = 12)
 for i in lightc: print(len(lightc[i]))
-ansatz = lightc[30]
+ansatz = lightc[1]
 print(len(ansatz), len(ansatz_full))
 
-for i in ansatz: print(i)
+
 #ansatz = QAOA(N, 2, array_method=False)
 HVA = False
-order = 4
+order = 2*len(ansatz)
 
 print("------------------")
 print(f"Number of qubits: {N}")
@@ -32,9 +33,9 @@ Energy_appr_0 = False
 
 def reproduce(N, H, ansatz, order, thetas, delta_theta, Energy_mat = False, Energy_appr = True, Energy_cirq = True, Energy_appr_0 = False):
     #Generate random thetas and KA
-    
+
     thetas = thetas + delta_theta
-    K = np.round(thetas/np.pi*4, 0).astype(int)
+    K = np.zeros(len(ansatz), dtype  = int) #np.array([0]*N+[2]*N+[0]*D+[0]*N)#np.round(thetas/np.pi*4, 0).astype(int)
     thetas_moved = thetas - K*np.pi/4
     K_0 = np.zeros(len(ansatz), dtype  = int) 
 
@@ -56,8 +57,14 @@ def reproduce(N, H, ansatz, order, thetas, delta_theta, Energy_mat = False, Ener
     #Energy with approximation method and perturbation
     if Energy_appr:
         time_expansion = time()
-        s = s_dict(N, ansatz, K, order)
-        G_K = G_k(N, H, ansatz,K)
+        s = s_dict(N, ansatz, K, order, prepare_x_basis = True)
+        #Cliffords x gates
+        cliffords = [pauli(f'X{i}', N, -1) for i in range(N)]
+        G_K = G_k(N, H, cliffords, [-1]*len(cliffords))
+        G_K = G_k(N, G_K, ansatz, K)
+        #cliffords of y rotations
+        G_K = G_K_prepare_x_basis(N, G_k(N, H, ansatz, K))
+
         E_expansion = energy(thetas_moved, s, G_K, order)
         time_expansion = time() - time_expansion
         print(f"{'E_expansion:':<25} {f'{E_expansion}'}\n", f"{'time:':<25} {f'{time_expansion}'}\n")
@@ -84,29 +91,19 @@ def reproduce(N, H, ansatz, order, thetas, delta_theta, Energy_mat = False, Ener
     return E_matrix, E_expansion, E_cirq, E_expansion_0
 
 
-
-
-import pandas as pd
-deltas = np.arange(0,.45, .05)
-orders = [3,4,5,6,7,8,9,10,11,12]
-data = pd.DataFrame(columns = deltas, index = orders)
-
-thetas = np.random.choice([0,-np.pi/2, np.pi/2, np.pi, -np.pi], len(ansatz))/2
-
-
-for delta_theta in deltas:
-    First_time = True
-    for order in orders:
-            print(f"delta_theta: {delta_theta} and order: {order}")
-            try:
-                if not First_time:
-                    _, result, _ , _  = reproduce(N, H, ansatz, order, thetas, delta_theta, Energy_cirq = False)
-                    data[delta_theta][order] = (result, result_cirq)
-                elif First_time:
-                    _,result, result_cirq, _ = reproduce(N, H, ansatz, order, thetas, delta_theta)
-                    data[delta_theta][order] = (result, result_cirq)
-            except:
-                print("error")
-                data[delta_theta][order] = None
-            First_time = False
-data.to_csv("reproducing_results/data/repr_3.csv", sep = ";")
+# for delta_theta in deltas:
+#     First_time = True
+#     for order in orders:
+#             print(f"delta_theta: {delta_theta} and order: {order}")
+#             try:
+#                 if not First_time:
+#                     _, result, _ , _  = reproduce(N, H, ansatz, order, thetas, delta_theta, Energy_cirq = False)
+#                     data[delta_theta][order] = (result, result_cirq)
+#                 elif First_time:
+#                     _,result, result_cirq, _ = reproduce(N, H, ansatz, order, thetas, delta_theta)
+#                     data[delta_theta][order] = (result, result_cirq)
+#             except:
+#                 print("error")
+#                 data[delta_theta][order] = None
+#             First_time = False
+# data.to_csv("reproducing_results/data/repr_3.csv", sep = ";")

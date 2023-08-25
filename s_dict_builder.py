@@ -1,7 +1,10 @@
 from Func import *
+from Energy_funcions import *
 #@timing
-def s_dict(N, ansatz, K, order):
+def s_dict(N, ansatz, K, order, prepare_x_basis = False):
     T_K = pull_cliffords_through(ansatz, K, N)
+    if prepare_x_basis:
+        T_K = T_K_prepare_x_basis(N, T_K)
     
     firstorder = [0]*len(ansatz)
     s_dict = {tuple([0]*N) : ([firstorder], [1])}

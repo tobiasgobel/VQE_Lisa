@@ -1,5 +1,5 @@
 from pauli_objects import *
-
+from Energy_funcions import *
 def QAOA(N:int, L:int, array_method = False):
     ansatz = []
     assert L%2 == 0, "L is odd"
@@ -63,27 +63,44 @@ def TFIM(N, X_h, Z_h=-1,array_method=False):
 
 
 
-def lightcone(H, ansatz):
-    #H is a list of pauli objects
-    #ansatz is a list of pauli objects
+### QAOA to Max E3LIN2 problem
 
-    #find the lightcone of the ansatz
-    lightcone = {i:[] for i in range(len(ansatz)+1)}
-    branches = {i:[] for i in range(len(ansatz)+1)}
-    branches[0] = H
-    for i, a in enumerate(ansatz[::-1]):
-        for order in reversed(range(i+1)):
-            for h in branches[order]:
-                R = a*h
-                L = h*a
-                if not R == L:
-                    for j in range(order+1, len(ansatz)):
-                        if a not in lightcone[j]:
-                            lightcone[j].append(a)
-                    branches[order+1].append(L)
-                    break
-    return lightcone
+def E3LIN2(N, D):
+
+    #Randomly generate clauses
+    clauses = []
+    for i in range(D):
+        a = np.random.choice([-1,1],3)
+        b = np.random.choice(range(N),3,replace=False)
+        clauses.append((a,b))
+
+    #Hamiltonian
+
+    H = []
+    for a,b in clauses:
+        H.append(pauli(f"Z{b[0]}Z{b[1]}Z{b[2]}", N, .5*a[0]*a[1]*a[2]))
+    return H
+
+def E3LIN2_ansatz(N, H, L = 1, array_method = False):
+    #hadamard gates in terms of pauli matrices
+    #Y rotation followed by X rotation
+    ansatz = []
+    ansatz_full = []
+
+    #Build the ansatz
+    for i in range(L):
+        for j in range(N):
+            ansatz_full.append(pauli(f"Y{j}", N))
+        for h in H:
+            ansatz.append(h.factor**-1*(h))
+            ansatz_full.append(h.factor**-1*(h))
+        for n in range(N):
+            ansatz_full.append(pauli(f"X{n}", N))
+
+
+    return ansatz, ansatz_full
 
 
 
-            
+    
+

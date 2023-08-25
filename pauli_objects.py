@@ -122,4 +122,3 @@ class pauli:
     if qubits == None:
         qubits = cirq.LineQubit.range(self.N)
     return cirq.PauliString(dict(zip(qubits, self.string)), coefficient = self.factor)
-

@@ -3,9 +3,10 @@ from cirq_energy import *
 from time import time
 from visualize_landscape import *
 from sys import getsizeof
-N = 50
+N = 20
 D = 4
 H = E3LIN2(N, D)
+H_full = H.copy()
 ansatz, ansatz_full = E3LIN2_ansatz(N, H, 1)
 
 
@@ -17,7 +18,7 @@ H = G_k(N, H, cliffords, [1]*N)
 LightCone = lightcone(H, ansatz, order_max = 12)
 for i in H: print(i)
 print(LightCone)
-LC_order = 3
+LC_order = 1
 ansatz = LightCone[LC_order]
 ansatz = ansatz[::-1]
 
@@ -44,16 +45,18 @@ for gamma in gammas:
     print(f"gamma: {gamma}")
 
     #E appr
-    order = 10
+    order = 1
     E_appr = energy(thetas, s, G_K, order)
     energies_appr.append(E_appr)
 
     #E cirq
+
     thetas_full = [-np.pi/4]*N + [gamma]*D + [-np.pi/4]*N
+    K_full = np.zeros(len(ansatz_full), dtype = int)
     time_cirq = time()
-    H_cirq = sum([h.cirq_repr() for h in H])
+    H_cirq = sum([h.cirq_repr() for h in H_full])
     ansatz_cirq = [a.cirq_repr() for a in ansatz_full]
-    E_cirq = cirq_Energy(thetas_full, N, ansatz_cirq, H_cirq, K)
+    E_cirq = cirq_Energy(thetas_full, N, ansatz_cirq, H_cirq, K_full)
     time_cirq = time() - time_cirq
     print(f"{'E_cirq:':<25} {f'{E_cirq}'}\n", f"{'time:':<25} {f'{time_cirq}'}\n")
     energies_exact.append(E_cirq)

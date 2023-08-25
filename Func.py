@@ -222,3 +222,5 @@ def HVA_initialisation(HVA, max_angle):
         elif gate%2 == 0:
             thetas.append(linspace[int(gate/2)])
     return thetas
+
+

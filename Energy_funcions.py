@@ -1,5 +1,54 @@
 from Func import *
 import torch
+from pauli_objects import *
+
+def G_K_prepare_x_basis(N, G_K):
+  #move y cliffords through T_K
+  Y_rots = [pauli(f'Y{i}', N) for i in range(N)]
+  K = [-1]*N
+  G_K = G_k(N, G_K, Y_rots, K)
+  return G_K
+
+def G_K_add_cliffords(N, G_K, cliffords):
+  #move y cliffords through T_K
+  G_K = G_k(N, G_K, cliffords, [1]*len(cliffords))
+  return G_K
+
+def T_K_prepare_x_basis(N, T_K):
+  #move y cliffords through T_K
+  Y_rots = [pauli(f'Y{i}', N) for i in range(N)]
+  T_K_new = []
+  for P in T_K:
+    for Y in Y_rots:
+      P = Clifford_map(P,-1*Y)
+    T_K_new += [P]
+  return T_K_new
+
+
+    
+
+def lightcone(H, ansatz, order_max = 100):
+    #H is a list of pauli objects
+    #ansatz is a list of pauli objects
+
+    #find the lightcone of the ansatz
+    lightcone = {i:[] for i in range(len(ansatz)+1)}
+    branches = {i:[] for i in range(len(ansatz)+1)}
+    branches[0] = H
+    for i, a in enumerate(ansatz[::-1]):
+        for order in reversed(range(i+1)):
+            if order > order_max:
+                continue
+            for h in branches[order]:
+                R = a*h
+                L = h*a
+                if not R == L:
+                    for j in range(order+1, len(ansatz)):
+                        if a not in lightcone[j]:
+                            lightcone[j].append(a)
+                    branches[order+1].append(L)
+                    break
+    return lightcone
 
 def G_k(N, H, ansatz, K):
   g_k = []
@@ -54,9 +103,6 @@ def energy(thetas, s_dict,G_K, order, HVA=False, Pytorch= False):
         psi_s2 = s_dict1[state]
       except:
         break
-
-
-      
       if s not in terms:
         A = dict_multiplication(psi_s1[0],psi_s1[1],thetas)
         terms[s] = A
@@ -76,3 +122,5 @@ def energy(thetas, s_dict,G_K, order, HVA=False, Pytorch= False):
   
   norm = Normalize(terms)
   return np.real(E/norm)
+
+
