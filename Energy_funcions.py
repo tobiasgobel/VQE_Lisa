@@ -81,7 +81,7 @@ def Normalize(terms):
     return sum
 
 
-def energy(thetas, s_dict,G_K, order, HVA=False, Pytorch= False):
+def energy(thetas, s_dict,G_K, order = None, HVA=False, Pytorch= False):
   N = len(list(s_dict.keys())[0])
   E = 0
   s_dict1 = s_dict
