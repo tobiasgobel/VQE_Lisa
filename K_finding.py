@@ -1,20 +1,21 @@
 from K_cell_searching import *
 from tqdm import tqdm
 
-for N in [6,7]:
+for N in [10]:
     L = 4
     HVA = False
     X_H = -1
-    ansatz = QAOA(N, L)
-    H = TFIM(N, X_H)
+    ansatz = random_circuit(N, 8)
+    H = Z_expectation_val(N)
+    lightc = lightcone(H, ansatz, order_max = 8)
+    print([len(l) for l in lightc.values()])
+    ansatz = lightc[3]
     iterations = 10
-    order = 6
+    order = 4
     boundary = "hypersphere"
     filename = "table.csv"
     matrix_min = None
     input = [N, "QAOA", "TFIM", X_H, L, order, boundary, iterations]
-    #gradient-free optimization
-    #methods = ["Nelder-Mead", "Powell", "CG", "BFGS", "L-BFGS-B", "TNC", "COBYLA", "SLSQP", "trust-constr", "dogleg", "trust-ncg", "trust-exact", "trust-krylov"]
     methods = ["SLSQP"]
     for method in methods:
         start = time()

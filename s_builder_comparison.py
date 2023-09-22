@@ -59,17 +59,17 @@ def plot_activation_distribution(ansatz_len, s, filename):
 
 
 
-N = 20
-H = Z_expectation_val(N,array_method = False)
-ansatz_full = random_circuit(N, 8, array_method=False)
+N = 8
+H = TFIM(N, -1)#Z_expectation_val(N,array_method = False)
+ansatz_full = QAOA(N, 8)#random_circuit(N, 8, array_method=False)
 lightc = lightcone(H, ansatz_full, order_max = 5)
 
-ansatz = lightc[2]
+ansatz = lightc[5]
 print(len(ansatz), len(lightc[2]),len(ansatz_full))
 
-# thetas = np.random.randn(len(ansatz))*0.3
-# print("thetas", thetas)
-# K = np.random.choice([0,-1, 1, 2, -2], len(ansatz))
+thetas = np.random.randn(len(ansatz))*0.3
+print("thetas", thetas)
+K = np.random.choice([0,-1, 1, 2, -2], len(ansatz))
 # print('-----------')
 # print('Perturabation theory s -tree')
 # order = 3
@@ -91,7 +91,7 @@ print(len(ansatz), len(lightc[2]),len(ansatz_full))
 
 # n_terms_1 = []
 # times_1 = []
-# for order in [2,3,4,5,6,7]:
+# for order in [3,4,5,6,7]:
 #     print('order', order)
 #     time_expansion = time()
 #     s = s_dict(N, ansatz, K, order)
@@ -106,7 +106,7 @@ print(len(ansatz), len(lightc[2]),len(ansatz_full))
 
 # n_terms_2 = []
 # times_2 = []
-# for treshold in [0.5,0.2,0.1,0.07,0.05,0.01,5e-3, 1e-3, 7e-4]:
+# for treshold in [0.1,0.07,0.05,0.01,5e-3,5e-4,1e-4]:
 #     print('treshold', treshold)
 #     time_s = time()
 #     s_angle = s_dict_tree(N, ansatz, K, thetas, treshold = treshold)
@@ -117,20 +117,20 @@ print(len(ansatz), len(lightc[2]),len(ansatz_full))
 #     print("number of terms:",n_terms2)
 #     print("time for s_dict:", time_s)
 
-# plt.plot(n_terms_1, times_1, label="perturbative")
 # plt.plot(n_terms_2, times_2, label = "treshold")
+# plt.plot(n_terms_1, times_1, label="perturbative")
 # plt.legend()
 # plt.xlabel("Number of terms")
-# plt.ylabel("Time")
+# plt.ylabel("Time (s)")
 # plt.savefig("time_complexities.png")
 
 
 
 
 import pandas as pd
-samples = 20
+samples = 15
 sigmas = [0.08,0.16,0.32,0.4]
-orders = [3,4,5,6,7,8,9]
+orders = [3,4,5,6,7,8]
 tresholds = np.arange(samples)
 data = pd.DataFrame(columns = sigmas, index = orders)
 data_2 = pd.DataFrame(columns = sigmas, index = tresholds)
@@ -156,8 +156,8 @@ for sigma in sigmas:
         n_terms_1[sigma][order] = count_number_of_terms(s)
 
     tangent_products = tan_prd_list(s, thetas)
-    trsh = np.linspace(0, len(tangent_products)-1,samples+20, dtype =int)
-    trsh = [tangent_products[i] for i in trsh[20:]]
+    trsh = np.linspace(0, len(tangent_products)-1,samples+5, dtype =int)
+    trsh = [tangent_products[i] for i in trsh[5:]]
 
     for j, tresh in enumerate(tresholds):
         s_angle = s_dict_tree(N, ansatz, K, thetas, treshold = trsh[j])
@@ -179,7 +179,7 @@ data_2.to_csv("reproducing_results/data/s_comp_2.csv", sep = ";")
 a = pd.read_csv("reproducing_results/data/s_comp_1.csv", index_col = 0, delimiter = ";")
 b = pd.read_csv("reproducing_results/data/s_comp_2.csv",index_col = 0, delimiter = ";")
 
-fig, axs = plt.subplots(2, 2, sharey=True, sharex=True)
+fig, axs = plt.subplots(2, 2, sharey=True)
 
 
 axs = axs.flatten()
@@ -191,10 +191,11 @@ for k, sigma in enumerate(a.columns):
     axs[k].plot(nterms, l_1, label = f"Perturbation")
     axs[k].plot(nterms2, l_2, label = "Angle dependent")
     axs[k].set_title(f"Sigma {sigma}")
+    axs[k].ticklabel_format(style='sci', axis='x', scilimits=(0,0))
 fig.text(0.5, 0.01, 'Number of terms', ha='center')
-fig.text(0.01, 0.5, "log|<Z1Z25> - <Z1Z25>_cirq|", va='center', rotation='vertical')
+fig.text(0.01, 0.5, "log|Error|", va='center', rotation='vertical')
 fig.tight_layout()
 axs[1].legend()
 
-fig.savefig('s_comparison.png')   # save the figure to file
+fig.savefig('s_comparison_2.png')   # save the figure to file
 plt.close(fig) 

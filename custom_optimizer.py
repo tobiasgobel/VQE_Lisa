@@ -1,15 +1,13 @@
 import scipy
 import numpy as np
 import matplotlib.pyplot as plt
-import torch
-import torch.nn as nn
 from dataclasses import dataclass
 
 #Optimization class for optizing inside the K-cell
 class E_optimizer:
     def __init__(self, func, x0, args = (), boundary = "hypersphere", epsilon= 1e-4, method = "SLSQP"):
         self.func = func
-        self.x0 = torch.tensor(x0, requires_grad=True)
+        self.x0 = x0
         self.boundary = boundary
         self.epsilon = epsilon
         self.args = args
@@ -41,6 +39,7 @@ class Result:
     nfev: int
 
 def gradient_optimizer(x, f, args, max_iter, tol = 1e-4):
+    import torch 
     optimizer = torch.optim.Adam([x],lr=0.05)
     x_before = np.inf
     corner = np.sqrt(len(x)*(np.pi/8)**2)

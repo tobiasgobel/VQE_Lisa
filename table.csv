@@ -82,3 +82,8 @@ N, ansatz, model, coupling, layers, order, boundary, iterations, method, nfev-ra
 11,QAOA,TFIM,-1,2,6,hypersphere,10,SLSQP,1.745,0.897,-11.954,-13.113,-13.14,4381.3
 12,QAOA,TFIM,-1,2,6,hypersphere,10,SLSQP,1.337,0.907,-13.298,-14.317,-14.322,8838.4
 6,QAOA,TFIM,-1,4,6,hypersphere,10,SLSQP,0.408,0.998,-7.166,-7.147,-7.245,7086.6
+6,QAOA,TFIM,-1,4,4,hypersphere,10,SLSQP,8.154,1.0,-6.0,-6.0,-6.0,30.9
+7,QAOA,TFIM,-1,4,4,hypersphere,10,SLSQP,8.533,1.0,-7.0,-7.0,-7.0,42.6
+6,QAOA,TFIM,-1,4,4,hypersphere,10,SLSQP,0.606,0.969,-7.063,-7.147,-7.227,446.7
+8,QAOA,TFIM,-1,4,4,hypersphere,10,SLSQP,23.389,0.505,-1.0,-1.0,-1.0,97.9
+10,QAOA,TFIM,-1,4,4,hypersphere,10,SLSQP,3.067,0.48,-0.911,-1.0,-1.0,916.3

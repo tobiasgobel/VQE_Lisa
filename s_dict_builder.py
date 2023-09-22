@@ -30,8 +30,6 @@ def s_dict(N, ansatz, K, order, prepare_x_basis = False):
                 l = list.copy()
                 l[last_nonzero+1] = 1
                 next_order(l, last_nonzero+1, add_order-1, factor = factor, state = state)
-
-            if last_nonzero < len(list)-1:
                 next_order(list, 1+last_nonzero, add_order, calc = False, factor = factor, state = state)
 
     next_order(firstorder, -1, order, calc = False)
@@ -63,7 +61,7 @@ def s_dict_tree(N, ansatz, K, thetas, treshold, prepare_x_basis = False):
 
     
     #index of last nonzeror element in firstorder
-    def next_order(list, last_nonzero, calc = True, factor = 1, state = [0]*N):
+    def next_order(list, last_nonzero, calc = True, factor = 1, state = [0]*N, prod = 1):
         if calc:
             pauli_operator = T_K[last_nonzero]
             f, state = pauli_operator.state(np.array(state))
@@ -77,15 +75,13 @@ def s_dict_tree(N, ansatz, K, thetas, treshold, prepare_x_basis = False):
                 current[0].append(list)
                 current[1].append(factor)
 
-        prod = tangent_product(list, tan_thetas)
+        #prod = tangent_product(list, tan_thetas)
         if abs(prod) > treshold:
             if last_nonzero < len(list)-1:
                 l = list.copy()
                 l[last_nonzero+1] = 1
-                next_order(l, last_nonzero+1, factor = factor, state = state)
-
-            if last_nonzero < len(list)-1:
-                next_order(list, 1+last_nonzero, calc = False, factor = factor, state = state)
+                next_order(l, last_nonzero+1, factor = factor, state = state, prod = prod*tan_thetas[last_nonzero+1])
+                next_order(list, 1+last_nonzero, calc = False, factor = factor, state = state, prod = prod)
 
     next_order(firstorder, -1, calc = False)
 

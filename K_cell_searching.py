@@ -120,11 +120,10 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
             args = (s, G_K, order, HVA)
             prev_angles_global = local_to_global_angle(node_above["angles"], node_above["K"])
             #translate to angles in current K_cell
-            init_angles = torch.tensor(global_to_local_angle(prev_angles_global, K).copy(),requires_grad=True)
+            init_angles = np.array(global_to_local_angle(prev_angles_global, K).copy())
 
-        #optimizer = E_optimizer(energy, init_angles, method = method, args = args)
-
-        result = gradient_optimizer(init_angles, energy, args = args, max_iter = 200)
+        optimizer = E_optimizer(energy, init_angles, method = method, args = args)
+        result = optimizer.optim()
 
         #get indices of magic gates
         gates_zipped = zip(np.pi/8 - abs(result.x), range(len(result.x)))
@@ -134,7 +133,7 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
 
         #get indices of gates close enough to magic angle
         magic_indices = [gates_sorted[1] for gates_sorted in gates_sorted if gates_sorted[0] < epsilon]
-        print(magic_indices)
+        print('Magic indices: ', magic_indices)
 
 
 
