@@ -1,7 +1,7 @@
 from K_cell_searching import *
 from tqdm import tqdm
 
-for N in [10]:
+for N in [3,4,5,6,7,8,9,10]:
     L = 4
     HVA = False
     X_H = -1
