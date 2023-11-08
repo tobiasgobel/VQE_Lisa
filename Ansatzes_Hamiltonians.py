@@ -110,7 +110,7 @@ def matchgate_hamiltonian(N, z_h = 1, zz_h = 1, xx_h = 1):
         H.append(pauli(f"X{i}X{i+1}",N,xx_h))
     return H
 
-def matchgate_ansatz(N, K, array_method = False):
+def matchgate_ansatz(N, K, array_method = False, ZZ_gates = True):
 
     XX_layer = [pauli(f"X{i}X{i+1}",N) for i in range(N-1)] # not yet flattened circuit
     ZZ_layer = [pauli(f"Z{i}Z{i+1}",N) for i in range(N-1)] 
@@ -119,7 +119,8 @@ def matchgate_ansatz(N, K, array_method = False):
     for i in range(int(K)):
         ansatz += XX_layer
         ansatz += Z_layer
-        ansatz += ZZ_layer
+        if ZZ_gates:
+            ansatz += ZZ_layer
 
     if array_method:
         ansatz = [a.to_parray() for a in ansatz]
