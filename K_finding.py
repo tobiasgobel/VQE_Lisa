@@ -1,15 +1,16 @@
 from K_cell_searching import *
 from tqdm import tqdm
 
-for N in [3,4,5,6,7,8,9,10]:
-    L = 4
+for N in [3]:
+    L = 3
     HVA = False
     X_H = -1
-    ansatz = random_circuit(N, 8)
-    H = Z_expectation_val(N)
-    lightc = lightcone(H, ansatz, order_max = 8)
+    ansatz = matchgate_ansatz(N,L)
+    H = matchgate_hamiltonian(N)
+    lightc = lightcone(H, ansatz, order_max = 4)
     print([len(l) for l in lightc.values()])
-    ansatz = lightc[3]
+    print(lightc[3])
+    ansatz = [ansatz[i] for i in lightc[3]]
     iterations = 10
     order = 4
     boundary = "hypersphere"

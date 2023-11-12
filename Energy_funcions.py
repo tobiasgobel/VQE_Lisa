@@ -44,15 +44,16 @@ def lightcone(H, ansatz, order_max = 100):
                 L = h*a
                 if not R == L:
                     for j in range(order+1, len(ansatz)):
-                        if a not in lightcone[j]:
-                            lightcone[j].append(a)
+                        if i not in lightcone[j]:
+                            lightcone[j].append(i)
                     branches[order+1].append(L)
                     break
-    return lightcone
+    return lightcone[order_max]
+
+
 
 def G_k(N, H, ansatz, K):
   g_k = []
-
   #Initialize list of Clifford gates with respective power of K.
   G_K = []
   for i in range(len(K)):
@@ -81,7 +82,7 @@ def Normalize(terms):
     return sum
 
 
-def energy(thetas, s_dict,G_K, order = None, HVA=False, Pytorch= False):
+def energy(thetas, s_dict,G_K, order = None, HVA=False, lightcone = None):
   N = len(list(s_dict.keys())[0])
   E = 0
   s_dict1 = s_dict
@@ -123,4 +124,44 @@ def energy(thetas, s_dict,G_K, order = None, HVA=False, Pytorch= False):
   norm = Normalize(terms)
   return np.real(E/norm)
 
+
+
+def energy_lightcone(thetas, s_dicts, G_K, order = None):
+  N = len(list(s_dicts[0].keys())[0])
+  E = 0
+  terms = {}
+  for i, paulistring in enumerate(G_K): #loop through terms in Hamiltonian
+    E_a = 0
+    #loop over basis states
+    s_dict1 = s_dicts[i]
+    for s in s_dict1:
+      #Calculate G^-K P_a G^K |s>
+      a, state = paulistring.state(s)
+      #Define contributions of |s> and |s'>
+      psi_s1 = s_dict1[s]
+
+      #Check if the state created by hamiltonian, exists in wavefunction
+      try:
+        psi_s2 = s_dict1[state]
+      except:
+        break
+      if s not in terms:
+        A = dict_multiplication(psi_s1[0],psi_s1[1],thetas)
+        terms[s] = A
+      else:
+        A = terms[s]
+      
+      
+      if state not in terms:
+        B = dict_multiplication(psi_s2[0],psi_s2[1],thetas)
+        terms[state] = B
+      else:
+        B = terms[state]
+
+
+      E_a += a*A*np.conj(B)
+    E += E_a
+  
+  norm = Normalize(terms)
+  return np.real(E/norm)
 

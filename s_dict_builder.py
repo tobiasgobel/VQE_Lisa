@@ -90,3 +90,14 @@ def s_dict_tree(N, ansatz, K, thetas, treshold, prepare_x_basis = False):
         s_dict[st] = (np.array(lst[0]),np.array(lst[1]))
 
     return s_dict
+
+
+def s_dicts_lightcones(N, ansatz, H, K, order):
+    sdicts = []
+    T_K = pull_cliffords_through(ansatz, K, N)
+    for h in H:
+        lc_indices = lightcone([h], T_K, order)
+        lc_gates = [T_K[i] for i in lc_indices]
+        sdicts.append(s_dict(N, lc_gates, K, order))
+    return sdicts
+

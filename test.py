@@ -4,23 +4,18 @@ from cirq_energy import *
 from time import time
 from visualize_landscape import *
 from sys import getsizeof
-N = 40
-H = TFIM(N,1,array_method = False)
+N = 20
+H = matchgate_hamiltonian(N)
 HVA = False
-ansatz = QAOA(N, 2, array_method=False)
+ansatz = matchgate_ansatz(N, 2, ZZ_gates = False)
 order = 4
 Nfeval = 1
 print(f"Number of qubits: {N}")
 print(f"Length of ansatz: {len(ansatz)}")
 print(f"Order of approx: {order}")
-# matrix_ansatz = [t.matrix_repr() for t in ansatz]
-# matrix_H = sum([h.matrix_repr() for h in H])
+matrix_ansatz = [t.matrix_repr() for t in ansatz]
+matrix_H = sum([h.matrix_repr() for h in H])
 
-def callbackF(Xi, state):
-    global Nfeval
-    E = state.fun
-    print('{0:4d}   {1: 3.6f}   {2: 3.6f}   {3: 3.6f}   {4: 3.6f}  {5: 3.6f}'.format(Nfeval, Xi[0], Xi[1], Xi[2], Xi[3], E))
-    Nfeval += 1
 
 
 if HVA:
@@ -48,7 +43,6 @@ time_matrix = time() - time_matrix
 time_expansion = time()
 s = s_dict(N, ansatz, K, order)
 
-
 #print(f"memory s-dict: {getsizeof(s)}")
 #s = s_dict(N, ansatz, K, order)
 G_K = G_k(N, H, ansatz,K)
@@ -57,18 +51,26 @@ time_expansion = time() - time_expansion
 print(time_expansion)
 
 
+#with lightcones
+time_expansion_lc = time()
+sdicts = s_dicts_lightcones(N, ansatz, H, K, order)
+G_K = G_k(N, H, ansatz,K)
+E_expansion_lc = energy_lightcone(thetas, sdicts, G_K, order)
+time_expansion_lc = time() - time_expansion_lc
+print(time_expansion_lc)
+
 #Energy with cirq
 time_cirq = time()
 H_cirq = sum([h.cirq_repr() for h in H])
 ansatz_cirq = [a.cirq_repr() for a in ansatz]
-E_cirq = 0#cirq_Energy(thetas, N, ansatz_cirq, H_cirq, K, HVA)
+E_cirq = cirq_Energy(thetas, N, ansatz_cirq, H_cirq, K, HVA)
 time_cirq = time() - time_cirq
 
 
 print(f"{'E_matrix:':<25} {f'{E_matrix}'}\n", f"{'time:':<25} {f'{time_matrix}'}\n")
 print(f"{'E_expansion:':<25} {f'{E_expansion}'}\n", f"{'time:':<25} {f'{time_expansion}'}\n")
 print(f"{'E_cirq:':<25} {f'{E_cirq}'}\n", f"{'time:':<25} {f'{time_cirq}'}\n")
-
+print(f"{'E_expansion_lc:':<25} {f'{E_expansion_lc}'}\n", f"{'time:':<25} {f'{time_expansion_lc}'}\n")
 
 
 #check if energies match
