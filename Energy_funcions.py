@@ -32,23 +32,29 @@ def lightcone(H, ansatz, order_max = 100):
     #ansatz is a list of pauli objects
 
     #find the lightcone of the ansatz
-    lightcone = {i:[] for i in range(len(ansatz)+1)}
-    branches = {i:[] for i in range(len(ansatz)+1)}
-    branches[0] = H
+    lightcone = []
+
+    #initialize tree
+    tree = H
+
+    #loop through gates backwards
     for i, a in enumerate(ansatz[::-1]):
-        for order in reversed(range(i+1)):
-            if order > order_max:
-                continue
-            for h in branches[order]:
-                R = a*h
-                L = h*a
-                if not R == L:
-                    for j in range(order+1, len(ansatz)):
-                        if i not in lightcone[j]:
-                            lightcone[j].append(i)
-                    branches[order+1].append(L)
-                    break
-    return lightcone[order_max]
+
+      #loop through gates in current tree
+      for h in tree:
+          R = a*h
+          L = h*a
+
+          #if ansatz gate does not commute with gate in tree
+          if not R == L:
+            #add index gate to lichtcone
+            lightcone.append(len(ansatz)-i-1)
+            #add gate to tree
+            tree.append(a)
+            tree.append(R)
+            break
+
+    return lightcone
 
 
 
@@ -126,12 +132,13 @@ def energy(thetas, s_dict,G_K, order = None, HVA=False, lightcone = None):
 
 
 
-def energy_lightcone(thetas, s_dicts, G_K, order = None):
+def energy_lightcone(thetas_full, s_dicts, G_K, lightcones,order = None):
   N = len(list(s_dicts[0].keys())[0])
   E = 0
-  terms = {}
   for i, paulistring in enumerate(G_K): #loop through terms in Hamiltonian
+    terms = {}
     E_a = 0
+    thetas = [thetas_full[j] for j in lightcones[i]]
     #loop over basis states
     s_dict1 = s_dicts[i]
     for s in s_dict1:
@@ -160,8 +167,9 @@ def energy_lightcone(thetas, s_dicts, G_K, order = None):
 
 
       E_a += a*A*np.conj(B)
-    E += E_a
+    print(terms)
+    norm = 1 if terms == {} else Normalize(terms)
+    E += E_a/norm
   
-  norm = Normalize(terms)
-  return np.real(E/norm)
+  return np.real(E)
 
