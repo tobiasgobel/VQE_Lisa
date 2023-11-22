@@ -6,6 +6,7 @@ from operator import *
 import scipy
 import numpy as np
 import random
+import numba as nb
 from numba import jit
 import matplotlib.pyplot as plt
 from itertools import combinations

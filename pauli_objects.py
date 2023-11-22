@@ -15,6 +15,9 @@ class pauli:
     self.N = N
     self.starting_state = np.array([0]*self.N)
 
+  def __repr__(self):
+    return f"{self.factor}*{''.join(self.string)}"
+
 
   def __str__(self):
     return f"{self.string}   factor: "+str(self.factor)

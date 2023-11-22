@@ -1,6 +1,7 @@
 from Func import *
 import torch
 from pauli_objects import *
+from collections import OrderedDict
 
 def G_K_prepare_x_basis(N, G_K):
   #move y cliffords through T_K
@@ -35,25 +36,34 @@ def lightcone(H, ansatz, order_max = 100):
     lightcone = []
 
     #initialize tree
-    tree = H
+    assert len(H)==1
+    H = H[0]
+    ansatz = ansatz[::-1]
+
+    tree = {'h':0}
 
     #loop through gates backwards
-    for i, a in enumerate(ansatz[::-1]):
+    for i, a in enumerate(ansatz):
 
       #loop through gates in current tree
-      for h in tree:
-          R = a*h
-          L = h*a
+      for h in sorted(tree, key = lambda x: tree[x]):
+          if tree[h]==order_max:
+            break
+          if h == 'h':
+            h_gate = H
+
+          else:
+            h_gate = ansatz[h]
+          R = a*h_gate
+          L = h_gate*a
 
           #if ansatz gate does not commute with gate in tree
           if not R == L:
             #add index gate to lichtcone
             lightcone.append(len(ansatz)-i-1)
             #add gate to tree
-            tree.append(a)
-            tree.append(R)
+            tree[i]=tree[h]+1
             break
-
     return lightcone
 
 
@@ -70,8 +80,11 @@ def G_k(N, H, ansatz, K):
     g_k += [paulistring]
   return g_k
 
-@jit(nopython=True)
-def dict_multiplication(k,values,thetas):
+#@nb.guvectorize(['void(int64[:,:], complex128[:], float64[:])'], "(n,d),(d),(n)->()")
+#@nb.jit(nopython = True)
+
+@nb.guvectorize([(nb.int64[:,:], nb.complex128[:], nb.float64[:], nb.complex128[:])], '(n,d), (n),(d)-> ()', nopython=True)
+def dict_multiplication(k,values,thetas, res):
     sum = 0
     for i in range(k.shape[0]):
         product = 1
@@ -79,7 +92,7 @@ def dict_multiplication(k,values,thetas):
           if k[i,j] == 1:
             product*= np.tan(thetas[j])
         sum += product*values[i]
-    return sum
+    res[0] = sum
 
 def Normalize(terms):
     sum = 0
@@ -167,7 +180,6 @@ def energy_lightcone(thetas_full, s_dicts, G_K, lightcones,order = None):
 
 
       E_a += a*A*np.conj(B)
-    print(terms)
     norm = 1 if terms == {} else Normalize(terms)
     E += E_a/norm
   

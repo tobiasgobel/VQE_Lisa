@@ -4,17 +4,20 @@ from cirq_energy import *
 from time import time
 from visualize_landscape import *
 from sys import getsizeof
-N = 20
+N = 50
+
+
 H = matchgate_hamiltonian(N)
 HVA = False
-ansatz = matchgate_ansatz(N, 2, ZZ_gates = False)
+ansatz = QAOA(N,2)#matchgate_ansatz(N, 2, ZZ_gates = False)
+
 order = 4
 Nfeval = 1
 print(f"Number of qubits: {N}")
 print(f"Length of ansatz: {len(ansatz)}")
 print(f"Order of approx: {order}")
-matrix_ansatz = [t.matrix_repr() for t in ansatz]
-matrix_H = sum([h.matrix_repr() for h in H])
+# matrix_ansatz = [t.matrix_repr() for t in ansatz]
+# matrix_H = sum([h.matrix_repr() for h in H])
 
 
 
@@ -41,21 +44,23 @@ time_matrix = time() - time_matrix
 
 #Energy with approximation method
 time_expansion = time()
-s = s_dict(N, ansatz, K, order)
-
+s =0# s_dict(N, ansatz, K, order)
+# print('s',s)
 #print(f"memory s-dict: {getsizeof(s)}")
 #s = s_dict(N, ansatz, K, order)
 G_K = G_k(N, H, ansatz,K)
-E_expansion = energy(thetas, s, G_K, order, HVA = HVA)
+E_expansion = 0#energy(thetas, s, G_K, order, HVA = HVA)
 time_expansion = time() - time_expansion
 print(time_expansion)
 
 
 #with lightcones
 time_expansion_lc = time()
-sdicts = s_dicts_lightcones(N, ansatz, H, K, order)
+sdicts, lc = s_dicts_lightcones(N, ansatz, H, K, order)
+# print("lc",lc,'sdictlc',sdicts[0])
 G_K = G_k(N, H, ansatz,K)
-E_expansion_lc = energy_lightcone(thetas, sdicts, G_K, order)
+
+E_expansion_lc = energy_lightcone(thetas, sdicts, G_K, lc, order)
 time_expansion_lc = time() - time_expansion_lc
 print(time_expansion_lc)
 
@@ -63,7 +68,7 @@ print(time_expansion_lc)
 time_cirq = time()
 H_cirq = sum([h.cirq_repr() for h in H])
 ansatz_cirq = [a.cirq_repr() for a in ansatz]
-E_cirq = cirq_Energy(thetas, N, ansatz_cirq, H_cirq, K, HVA)
+E_cirq = 0#cirq_Energy(thetas, N, ansatz_cirq, H_cirq, K, HVA)
 time_cirq = time() - time_cirq
 
 
@@ -80,8 +85,6 @@ print(f"{'E_expansion_lc:':<25} {f'{E_expansion_lc}'}\n", f"{'time:':<25} {f'{ti
 #     print("Not the full order is used for the approximation")
 # else:
 #     print("Energies dont match")
-
-
 
 
 # E = scipy.optimize.minimize(Energy_matrix, thetas, args = (N, matrix_H, matrix_ansatz, K))

@@ -36,7 +36,7 @@ def s_dict(N, ansatz, K, order, prepare_x_basis = False):
 
     for st in s_dict:
         lst = s_dict[st]
-        s_dict[st] = (np.array(lst[0]),np.array(lst[1]))
+        s_dict[st] = (np.array(lst[0]),np.array(lst[1], dtype = np.complex128))
 
     return s_dict
 
@@ -94,10 +94,12 @@ def s_dict_tree(N, ansatz, K, thetas, treshold, prepare_x_basis = False):
 
 def s_dicts_lightcones(N, ansatz, H, K, order):
     sdicts = []
+    lc = []
     T_K = pull_cliffords_through(ansatz, K, N)
     for h in H:
         lc_indices = lightcone([h], T_K, order)
         lc_gates = [T_K[i] for i in lc_indices]
         sdicts.append(s_dict(N, lc_gates, K, order))
-    return sdicts
+        lc.append(lc_indices)
+    return sdicts, lc
 
