@@ -4,13 +4,15 @@ from cirq_energy import *
 from time import time
 from visualize_landscape import *
 from sys import getsizeof
-N = 50
+N = 6
 
 
 H = matchgate_hamiltonian(N)
 HVA = False
-ansatz = QAOA(N,2)#matchgate_ansatz(N, 2, ZZ_gates = False)
+ansatz = matchgate_ansatz(N, 2, ZZ_gates=False)
 
+# print("H: ", H)
+# print("ansatz: ",ansatz)
 order = 4
 Nfeval = 1
 print(f"Number of qubits: {N}")
@@ -32,8 +34,9 @@ if HVA:
 else:
     thetas_torch =torch.tensor((np.random.rand(len(ansatz))-.5)*np.pi/4, requires_grad=True)
     thetas = thetas_torch.detach().numpy()
-    K = np.zeros(len(ansatz), dtype  = int)#np.random.randint(0,3,len(ansatz))-1
-
+    K = np.zeros(len(ansatz), dtype = int)
+    K = np.random.randint(0,3,len(ansatz))-1
+    # print("K-cells: ", K)
 
 
 
@@ -42,35 +45,36 @@ time_matrix  = time()
 E_matrix = 0#Energy_matrix(thetas, N, matrix_H, matrix_ansatz, K)
 time_matrix = time() - time_matrix
 
-#Energy with approximation method
-time_expansion = time()
-s =0# s_dict(N, ansatz, K, order)
-# print('s',s)
-#print(f"memory s-dict: {getsizeof(s)}")
-#s = s_dict(N, ansatz, K, order)
-G_K = G_k(N, H, ansatz,K)
-E_expansion = 0#energy(thetas, s, G_K, order, HVA = HVA)
-time_expansion = time() - time_expansion
-print(time_expansion)
-
-
 #with lightcones
 time_expansion_lc = time()
 sdicts, lc = s_dicts_lightcones(N, ansatz, H, K, order)
-# print("lc",lc,'sdictlc',sdicts[0])
+time_sdicts = time() - time_expansion_lc
 G_K = G_k(N, H, ansatz,K)
-
 E_expansion_lc = energy_lightcone(thetas, sdicts, G_K, lc, order)
 time_expansion_lc = time() - time_expansion_lc
-print(time_expansion_lc)
+print(time_expansion_lc, time_sdicts)
+
+
+
 
 #Energy with cirq
 time_cirq = time()
 H_cirq = sum([h.cirq_repr() for h in H])
 ansatz_cirq = [a.cirq_repr() for a in ansatz]
-E_cirq = 0#cirq_Energy(thetas, N, ansatz_cirq, H_cirq, K, HVA)
+E_cirq = cirq_Energy(thetas, N, ansatz_cirq, H_cirq, K, HVA)
 time_cirq = time() - time_cirq
 
+
+#Energy with approximation method
+time_expansion = time()
+# print('s',s)
+# print(f"memory s-dict: {getsizeof(s)}")
+s = 1#s_dict(N, ansatz, K, order)
+G_K = G_k(N, H, ansatz,K)
+
+E_expansion = 0#energy(thetas, s, G_K, order, HVA = HVA)
+time_expansion = time() - time_expansion
+print(time_expansion)
 
 print(f"{'E_matrix:':<25} {f'{E_matrix}'}\n", f"{'time:':<25} {f'{time_matrix}'}\n")
 print(f"{'E_expansion:':<25} {f'{E_expansion}'}\n", f"{'time:':<25} {f'{time_expansion}'}\n")

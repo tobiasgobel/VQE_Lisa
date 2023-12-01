@@ -95,7 +95,7 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
     #calculate minimum
     start = time()
     if matrix_min is None:
-        matrix_min = scipy.optimize.minimize(cirq_Energy, theta_init, args = (N, ansatz_cirq, H_cirq, K, HVA),method = "COBYLA", options={"rhobeg":0.01})
+        matrix_min = scipy.optimize.minimize(cirq_Energy, theta_init, args = (N, ansatz_cirq, H_cirq, K, HVA),method = method)
         print(matrix_min.fun)
     end = time()
     print(f"{'Time to find local minimum:':<25} {f'{end-start}'}\n")
@@ -106,6 +106,7 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
         K = K_tree[curr_node]["K"]
         s = s_dict(N, ansatz, K, order)
         G_K = G_k(N, H, ansatz,K)
+        sdicts, lc = s_dicts_lightcones(N, ansatz, H, K, order)
 
         #previous minimized set of angles
         node_above= K_tree[curr_node[:-1]]
@@ -116,13 +117,18 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
             args = (s, G_K, order, HVA)
             prev_angles_global = local_to_global_angle(node_above["angles"], shorten_vector(HVA, N, node_above["K"]))
             init_angles = global_to_local_angle(prev_angles_global, shorten_vector(HVA, N, K))
-        else:   
-            args = (s, G_K, order, HVA)
+        else:
+            #args = (s, G_K, order, HVA) without lightcones
+
+            #with lightcones
+            args = (sdicts, G_K, lc, order)
+
+
             prev_angles_global = local_to_global_angle(node_above["angles"], node_above["K"])
             #translate to angles in current K_cell
             init_angles = np.array(global_to_local_angle(prev_angles_global, K).copy())
 
-        optimizer = E_optimizer(energy, init_angles, method = method, args = args)
+        optimizer = E_optimizer(energy_lightcone, init_angles, method = method, args = args)
         result = optimizer.optim()
 
         #get indices of magic gates
@@ -215,9 +221,9 @@ def find_K(N, ansatz, H, iterations, order, boundary = "hypersphere",log=True, m
     #Ratio between number of nfev theta_init to theta_t and theta_a to theta_t
     theta_a = out['angles']
     K_a = out["K"]
-    landscape_visualize(theta_a, cirq_Energy, (N, ansatz_cirq, H_cirq, K_a, HVA), filename= "landscape.png", num_directions = len(theta_a))
+    #landscape_visualize(theta_a, cirq_Energy, (N, ansatz_cirq, H_cirq, K_a, HVA), filename= "landscape.png", num_directions = len(theta_a))
     # appr_min = scipy.optimize.minimize(cirq_Energy, theta_a, jac = False, args = (N, ansatz_cirq, H_cirq, K_a, HVA), method = 'COBYLA', options = {'rhobeg':0.01})
-    appr_min = E_optim_cirq(cirq_Energy, theta_a, args = (N, ansatz_cirq, H_cirq, K_a, HVA), plot = True).optim()
+    appr_min = E_optim_cirq(cirq_Energy, theta_a, args = (N, ansatz_cirq, H_cirq, K_a, HVA), method = method).optim()
     
     nfev_ratio = matrix_min.nfev/appr_min.nfev
     E_a_t = appr_min.fun #

@@ -79,7 +79,7 @@ class E_optim_cirq:
         self.energy.append(self.func(x, *self.args))
 
     def optim(self):
-        opt = scipy.optimize.minimize(self.func, self.x0,args = self.args, method = self.method, callback = self.callback,options={'rhobeg':0.01})
+        opt = scipy.optimize.minimize(self.func, self.x0,args = self.args, method = self.method)
         if self.plot:
             iterations = len(self.angles)
             self.angles = np.array(self.angles).reshape(iterations, len(self.x0), order = "F")

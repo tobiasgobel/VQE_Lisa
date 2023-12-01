@@ -1,16 +1,12 @@
 from K_cell_searching import *
 from tqdm import tqdm
 
-for N in [3]:
-    L = 3
+for N in [6]:
+    L = 2
     HVA = False
     X_H = -1
-    ansatz = matchgate_ansatz(N,L)
-    H = matchgate_hamiltonian(N)
-    lightc = lightcone(H, ansatz, order_max = 4)
-    print([len(l) for l in lightc.values()])
-    print(lightc[3])
-    ansatz = [ansatz[i] for i in lightc[3]]
+    ansatz = QAOA(N, 4)
+    H = TFIM(N, X_h = 1)
     iterations = 10
     order = 4
     boundary = "hypersphere"

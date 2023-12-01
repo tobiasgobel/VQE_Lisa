@@ -1,11 +1,16 @@
 from Func import *
 from Energy_funcions import *
 #@timing
-def s_dict(N, ansatz, K, order, prepare_x_basis = False):
+def s_dict(N, ansatz, K, order, prepare_x_basis = False, cliffords_pulled_through = False):
+    
+    
     T_K = pull_cliffords_through(ansatz, K, N)
+
     if prepare_x_basis:
         T_K = T_K_prepare_x_basis(N, T_K)
     
+    assert len(ansatz) == len(K)
+
     firstorder = [0]*len(ansatz)
     s_dict = {tuple([0]*N) : ([firstorder], [1])}
 
@@ -98,8 +103,9 @@ def s_dicts_lightcones(N, ansatz, H, K, order):
     T_K = pull_cliffords_through(ansatz, K, N)
     for h in H:
         lc_indices = lightcone([h], T_K, order)
-        lc_gates = [T_K[i] for i in lc_indices]
-        sdicts.append(s_dict(N, lc_gates, K, order))
+        lc_gates = [ansatz[i] for i in lc_indices]
+        K_indexed = [K[i] for i in lc_indices]
+        sdicts.append(s_dict(N, lc_gates, K_indexed, order))
         lc.append(lc_indices)
     return sdicts, lc
 

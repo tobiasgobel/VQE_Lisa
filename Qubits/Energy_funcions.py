@@ -64,7 +64,7 @@ def lightcone(H, ansatz, order_max = 100):
             #add gate to tree
             tree[i]=tree[h]+1
             break
-    return lightcone
+    return lightcone[::-1]
 
 
 
@@ -106,6 +106,8 @@ def energy(thetas, s_dict,G_K, order = None, HVA=False, lightcone = None):
   E = 0
   s_dict1 = s_dict
   terms = {}
+  print("Normal energy")
+  print(thetas)
   if HVA:
     thetas = distribute_over_gates(HVA, N, thetas)
 
@@ -129,7 +131,6 @@ def energy(thetas, s_dict,G_K, order = None, HVA=False, lightcone = None):
       else:
         A = terms[s]
       
-      
       if state not in terms:
         B = dict_multiplication(psi_s2[0],psi_s2[1],thetas)
         terms[state] = B
@@ -138,6 +139,7 @@ def energy(thetas, s_dict,G_K, order = None, HVA=False, lightcone = None):
 
 
       E_a += a*A*np.conj(B)
+      
     E += E_a
   
   norm = Normalize(terms)
@@ -165,6 +167,7 @@ def energy_lightcone(thetas_full, s_dicts, G_K, lightcones,order = None):
         psi_s2 = s_dict1[state]
       except:
         break
+
       if s not in terms:
         A = dict_multiplication(psi_s1[0],psi_s1[1],thetas)
         terms[s] = A
@@ -178,9 +181,11 @@ def energy_lightcone(thetas_full, s_dicts, G_K, lightcones,order = None):
       else:
         B = terms[state]
 
-
       E_a += a*A*np.conj(B)
-    norm = 1 if terms == {} else Normalize(terms)
+    if terms == {}:
+      norm=1
+    else: 
+      norm = Normalize(terms)
     E += E_a/norm
   
   return np.real(E)
