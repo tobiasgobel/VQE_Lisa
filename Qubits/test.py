@@ -4,12 +4,12 @@ from cirq_energy import *
 from time import time
 from visualize_landscape import *
 from sys import getsizeof
-N = 6
+N = 3
 
 
-H = matchgate_hamiltonian(N)
+H = TFIM(N,X_h= -1)
 HVA = False
-ansatz = matchgate_ansatz(N, 2, ZZ_gates=False)
+ansatz = QAOA(N,2)
 
 # print("H: ", H)
 # print("ansatz: ",ansatz)
@@ -22,7 +22,8 @@ print(f"Order of approx: {order}")
 # matrix_H = sum([h.matrix_repr() for h in H])
 
 
-
+print("ansatz: ", ansatz)
+print("H: ", H)
 if HVA:
     # thetas = (np.random.rand(HVA)-.5)*np.pi/4
     # K = np.random.randint(0,3,HVA)-1
@@ -34,8 +35,9 @@ if HVA:
 else:
     thetas_torch =torch.tensor((np.random.rand(len(ansatz))-.5)*np.pi/4, requires_grad=True)
     thetas = thetas_torch.detach().numpy()
-    K = np.zeros(len(ansatz), dtype = int)
     K = np.random.randint(0,3,len(ansatz))-1
+    K = np.zeros(len(ansatz), dtype = int)
+    thetas = np.ones(len(ansatz))*np.pi
     # print("K-cells: ", K)
 
 
