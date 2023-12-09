@@ -4,12 +4,12 @@ from cirq_energy import *
 from time import time
 from visualize_landscape import *
 from sys import getsizeof
-N = 3
+N = 2
 
 
 H = TFIM(N,X_h= -1)
 HVA = False
-ansatz = QAOA(N,2)
+ansatz = QAOA(N, 2)
 
 # print("H: ", H)
 # print("ansatz: ",ansatz)
@@ -38,6 +38,7 @@ else:
     K = np.random.randint(0,3,len(ansatz))-1
     K = np.zeros(len(ansatz), dtype = int)
     thetas = np.ones(len(ansatz))*np.pi
+    thetas = [np.pi/5,0.3,0]
     # print("K-cells: ", K)
 
 

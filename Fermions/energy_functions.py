@@ -40,15 +40,18 @@ def energy(n, H, ansatz, angles):
     for h in H:
         #select the submatrix of the correlation matrix
         sub_corr = corr[h.positions, :][:, h.positions]
-        print(sub_corr, h.factor)
         #add energy contribution
-        E += -1j*h.factor*Pfaffian(sub_corr)
+        term =  -1j*h.factor*Pfaffian(sub_corr)
+        print("contribution", term)
+        E += term
     return E
 
-n = 3
+n = 2
 H = fermionic_TFIM(n)
 ansatz = ansatz_TFIM(n)
-angles = [np.pi]*len(ansatz)
+angles = [np.pi/5,0.3,0]
 print(f"Hamiltonian: {H}")
 print(f"Ansatz: {ansatz}")
-print(energy(n, H, ansatz, angles))
+print('energy fermionic', energy(n, H, ansatz, angles))
+z_contribution = -1*(np.cos(angles[0])**2 - np.sin(angles[0])**2)
+print('energy classical', z_contribution)

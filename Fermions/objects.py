@@ -124,9 +124,10 @@ class GaussianRotation(GaussianUnitary):
         matrix = np.eye(2 * self.N)
         assert len(self.monomial) == 2, "Invalid monomial for GaussianRotation"
         pos1, pos2 = self.monomial
-        matrix[pos1, pos1] = matrix[pos2, pos2] = np.cos(self.angle)
-        matrix[pos2, pos1] = -np.sin(self.angle)
-        matrix[pos1, pos2] = np.sin(self.angle)
+
+        matrix[pos1, pos1] = matrix[pos2, pos2] = np.cos(self.angle*2)
+        matrix[pos2, pos1] = -np.sin(self.angle*2)
+        matrix[pos1, pos2] = np.sin(self.angle*2)
         return matrix
 
 # Example usage
