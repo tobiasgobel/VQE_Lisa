@@ -187,7 +187,6 @@ def energy_lightcone(thetas_full, s_dicts, G_K, lightcones,order = None):
     else: 
       norm = Normalize(terms)
 
-    print('energy contribution',  E_a/norm)
     E += E_a/norm
   
   return np.real(E)

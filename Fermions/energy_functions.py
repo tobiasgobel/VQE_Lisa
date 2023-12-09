@@ -17,10 +17,12 @@ def calc_state(monomial, x):
     return x*monomial.factor
 
 def zero_corr(n):
-    corr_0 = np.zeros((2*n,2*n), dtype=np.complex128)
+    corr_0 = 1j*np.eye(2*n, dtype=np.complex128)
     for i in range(n):
-        corr_0[2*i,2*i+1] = 1
-        corr_0[2*i+1,2*i] = -1
+        corr_0[2*i,2*i+1] = 1j
+    corr_0 = corr_0 - corr_0.T
+
+    assert np.allclose(corr_0@corr_0, np.eye(2*n, dtype=np.complex128))
     return corr_0
 
 
@@ -28,30 +30,30 @@ def calc_correlation_matrix(n, ansatz, angles):
     corr_0 = zero_corr(n)
     circuit = [GaussianRotation(ansatz[i], angles[i]) for i in range(len(ansatz))]
     O = np.eye(2*n, dtype=np.complex128)
-    for i in circuit:
-        O = O* i.compute_matrix_repr()
+    for i in circuit[::-1]:
+        O =  i.compute_matrix_repr() @ O
     corr = O.T @ corr_0 @ O
     return corr
 
 def energy(n, H, ansatz, angles):
     corr = calc_correlation_matrix(n, ansatz, angles)
-    print(corr)
     E = 0
     for h in H:
         #select the submatrix of the correlation matrix
         sub_corr = corr[h.positions, :][:, h.positions]
         #add energy contribution
-        term =  -1j*h.factor*Pfaffian(sub_corr)
-        print("contribution", term)
+        term =  -h.factor*Pfaffian(sub_corr)
         E += term
     return E
 
-n = 2
+n = 200
 H = fermionic_TFIM(n)
 ansatz = ansatz_TFIM(n)
-angles = [np.pi/5,0.3,0]
-print(f"Hamiltonian: {H}")
-print(f"Ansatz: {ansatz}")
-print('energy fermionic', energy(n, H, ansatz, angles))
+angles = np.linspace(0.3, 2*np.pi, len(ansatz))
+print('angles', angles)
 z_contribution = -1*(np.cos(angles[0])**2 - np.sin(angles[0])**2)
-print('energy classical', z_contribution)
+xx_contribution = -4*np.sin(angles[1])*np.cos(angles[1])*np.cos(angles[0])*np.sin(angles[0])
+print('energy quantum', energy(n, H, ansatz, angles))
+print('energy classical', 2* z_contribution+xx_contribution)
+
+
