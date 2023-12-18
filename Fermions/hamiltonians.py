@@ -1,4 +1,5 @@
 from objects import *
+
 def fermionic_TFIM(n, j=-1, h=-1):
     H = []
     for i in range(n-1):

@@ -55,7 +55,8 @@ class monomial:
             repr += "C"+ str(self.positions[i])
         repr += ")"
         return repr
-    
+    def __len__(self):
+        return len(self.positions)
 
     #returns 0 if parity is even, 1 if parity is odd
     @property
@@ -66,6 +67,8 @@ class monomial:
 class circuit:
     def __init__(self, monomials: list):
         self.monomials = monomials
+        self.GaussianIndices, self.NonGaussianindices = self.indices()
+        self.gates = self.rotations()
 
     def __str__(self):
         repr = "circuit("
@@ -83,6 +86,25 @@ class circuit:
 
     def __add__(self, other):
         return circuit(self.monomials + other.monomials)
+    def __len__(self):
+        return len(self.monomials)
+
+
+    def indices(self):
+        gaussian=[]
+        nongaussian=[]
+        for monomial in self.monomials:
+            if len(monomial.positions)==2:
+                gaussian.append(monomial)
+            elif len(monomial.positions)==4:
+                nongaussian.append(monomial)
+            else:
+                raise ValueError("invalid"+str(monomial))
+        return gaussian, nongaussian
+
+    def rotations(self):
+        l = [GaussianRotation(m) if len(m.positions)==2 else NonGaussianUnitary(m) for m in self.monomials]
+        return l
 
     def evaluate(self, angles: list, state):
         return state(self, angles, state)
@@ -100,36 +122,44 @@ class GaussianUnitary:
 class GaussianFlip(GaussianUnitary):
     def __init__(self, monomial):
         super().__init__()
-        assert len(monomial.positions) == 1
-        self.monomial = monomial.positions
+        self.monomial = monomial
         self.N = monomial.n
         self.matrix_repr = self.compute_matrix_repr()
 
     def compute_matrix_repr(self):
         matrix = np.eye(2 * self.N)
-        matrix[self.monomial, self.monomial] = -1
+        for position in monomial.positions:
+            matrix*=-1
+            matrix[position, position] *= -1
         return matrix
 
 # Child class of Gaussian unitary
 class GaussianRotation(GaussianUnitary):
-    def __init__(self, monomial, angle):
+    def __init__(self, monomial, angle = None):
         super().__init__()
-        self.angle = angle
         self.monomial = monomial.positions
         self.N = monomial.n
-        self.matrix_repr = self.compute_matrix_repr()
-
-
-    def compute_matrix_repr(self):
+        self.matrix_repr = None if angle == None else self.compute_matrix_repr(angle)
+    
+    def compute_matrix_repr(self, angle):
         matrix = np.eye(2 * self.N)
         assert len(self.monomial) == 2, "Invalid monomial for GaussianRotation"
         pos1, pos2 = self.monomial
 
-        matrix[pos1, pos1] = matrix[pos2, pos2] = np.cos(self.angle*2)
-        matrix[pos2, pos1] = -np.sin(self.angle*2)
-        matrix[pos1, pos2] = np.sin(self.angle*2)
+        matrix[pos1, pos1] = matrix[pos2, pos2] = np.cos(angle*2)
+        matrix[pos2, pos1] = -np.sin(angle*2)
+        matrix[pos1, pos2] = np.sin(angle*2)
+        self.matrix_repr = matrix
         return matrix
 
-# Example usage
-a = GaussianFlip(monomial(4, [2]))
-b = GaussianRotation(monomial(4, [1, 2]), 0.2)
+
+#Non-Gaussian gate
+class NonGaussianUnitary:
+    def __init__(self, monomial):
+        self.monomial = monomial
+        self.N = monomial.n
+
+
+n=8
+l = [monomial(n, [1,2]), monomial(n,[3,4]), monomial(n,[6,7,8,9])]
+print(circuit(l).gates)

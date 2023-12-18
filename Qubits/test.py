@@ -4,7 +4,7 @@ from cirq_energy import *
 from time import time
 from visualize_landscape import *
 from sys import getsizeof
-N = 20
+N = 10
 
 
 H = TFIM(N,X_h= -1)
