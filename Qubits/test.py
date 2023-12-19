@@ -36,7 +36,7 @@ else:
     K = np.random.randint(0,3,len(ansatz))-1
     K = np.zeros(len(ansatz), dtype = int)
     thetas = np.ones(len(ansatz))*np.pi
-    thetas = np.linspace(0.3, 2*np.pi, len(ansatz))
+    thetas = np.linspace(0.5, 2*np.pi, len(ansatz))
     # print("K-cells: ", K)
 
 

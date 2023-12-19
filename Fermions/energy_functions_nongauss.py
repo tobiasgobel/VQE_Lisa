@@ -41,18 +41,4 @@ def energy_non_gaussian(H, circ, angles, order):
 
         
         
-        
 
-
-
-s_dict = defaultdict()
-n=list(range(10))
-
-# Example usage
-my_list = [1, 2, 3]
-max_length = len(my_list)-1
-
-all_subsets = list(powerset(my_list, max_length))
-
-for subset in all_subsets:
-    print(subset)
