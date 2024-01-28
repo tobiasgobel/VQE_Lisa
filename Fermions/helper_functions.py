@@ -16,8 +16,11 @@ def commute(monomial1,monomial2):
     else:
         return False
 
-
-def lightcone(monomial, circuit, gaussian=False, reverse = False):
+def onehot(n, idx):
+    vec = np.zeros(n)
+    vec[idx]=1
+    return vec
+def lightcone(monomial, circuit, gaussian=False, reverse = True):
     lc = []
     indices = []
     circuit = circuit if not reverse else circuit[::-1]
@@ -37,7 +40,7 @@ def lightcone(monomial, circuit, gaussian=False, reverse = False):
         #check if it commutes with other gates
         for l in lc:
             if not commute(monomial, l):
-                lc.append(l)
+                lc.append(m)
                 indices.append(i)
                 break
     return lc, indices
